@@ -11,7 +11,10 @@ const browserOptions: LaunchOptions = {
 export const config = {
   browser: process.env.BROWSER || 'chromium',
   browserOptions,
-  BASE_URL: 'https://playwright.dev',
+  BASE_URL: 'https://atq.outsystemscloud.com/IslamQA_Quiz/',
+  // https://atq.outsystemscloud.com/IslamQA_Quiz/
+  // https://islamqa-quiz.bubbleapps.io/version-test/
+  // https://quiz.islamqa.info/
   IMG_THRESHOLD: { threshold: 0.4 },
   BASE_API_URL: 'https://catfact.ninja/',
 };

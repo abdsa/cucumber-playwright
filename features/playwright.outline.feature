@@ -4,7 +4,8 @@ Feature: Playwright multi docs
 
   Background: Navigation
     Given Go to the playwright website
-
+  @ignore
+  
   Scenario Outline: Changing theme to required mode
     When Change theme to "<ThemeOne>" mode
     Then Snapshot "<ThemeOne>"
