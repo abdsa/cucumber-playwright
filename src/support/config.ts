@@ -11,7 +11,7 @@ const browserOptions: LaunchOptions = {
 export const config = {
   browser: process.env.BROWSER || 'chromium',
   browserOptions,
-  BASE_URL: 'https://atq.outsystemscloud.com/IslamQA_Quiz/',
+  BASE_URL: 'https://quiz.islamqa.info/',
   // https://atq.outsystemscloud.com/IslamQA_Quiz/
   // https://islamqa-quiz.bubbleapps.io/version-test/
   // https://quiz.islamqa.info/

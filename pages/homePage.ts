@@ -17,6 +17,18 @@ export class HomePage {
     }
   }
 
+  homePageFullUrl() {
+    if (page === quizIslamqaUrl) {
+      return quizIslamqaUrl;
+    }
+    if (page === quizIslamqaUrlOS) {
+      return quizIslamqaUrlOS;
+    }
+    if (page === quizIslamqaUrlBubble) {
+      return quizIslamqaUrlBubble;
+    }
+  }
+
   descriptionSectionSelector() {
     if (page === quizIslamqaUrl) {
       return "[data-sut-description-section='true']";
@@ -64,6 +76,6 @@ export class HomePage {
     this.instructionsSection = page.locator(this.prizeSectionSelector());
   }
   async goto() {
-    await this.page.goto('/');
+    await this.page.goto(this.homePageFullUrl());
   }
 }
