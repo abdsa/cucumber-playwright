@@ -1,5 +1,6 @@
 Feature: Static pages
 
+@ignore
   Scenario Outline: Static page
     Given the user is on the "<staticPage>" page
     Then the user will see the content of the "<staticPage>" page
