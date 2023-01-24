@@ -4,7 +4,6 @@ import { HomePage } from '../../pages/homePage';
 
 import { Given, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
-// import { expect } from '@playwright/test';
 
 Given('the user is on the home page', async function (this: ICustomWorld) {
   const homePage = new HomePage(this.page);
