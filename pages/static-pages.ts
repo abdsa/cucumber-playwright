@@ -35,7 +35,7 @@ export class StaticPages {
       this.pageContent = page.locator(this.pageContentSelector());
     }
   }
-  async goto(page: 'terms and conditions' | 'faq') {
+  async goto(page: keyof typeof this.pagesObject) {
     await this.page?.goto(this.pagesObject()[page]);
   }
 }

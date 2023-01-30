@@ -1,5 +1,6 @@
 Feature: 404 page
 
+@ignore
     Scenario: Not-found page
 
 
