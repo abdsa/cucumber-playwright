@@ -1,6 +1,6 @@
 import { ICustomWorld } from '../support/custom-world';
 // import { config } from '../support/config';
-import { HomePage } from '../../pages/homePage';
+import HomePage from '../../pages/homePage';
 
 import { Given, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';

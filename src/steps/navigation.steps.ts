@@ -13,17 +13,14 @@
 */
 import LoginPage from '../../pages/loginPage';
 import Navigation from '../../pages/navigation';
-// import HomePage from '../pages/homePage';
 import dataText from '../../dataText';
-// import LogOutPage from '../pages/logoutPage';
+import LogOutPage from '../../pages/logoutPage';
 import { ICustomWorld } from '../support/custom-world';
-import { Given, Then } from '@cucumber/cucumber';
+import HomePage from '../../pages/homePage';
+import { Given, When, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 
 const navigation = new Navigation(undefined);
-// const logoutPage = new LogOutPage();
-
-// const homePage = new HomePage();
 
 Given('the user is "not authenticated"', () => {
   navigation.checkUnauthenticated();
@@ -35,12 +32,13 @@ Given('the user is "authenticated"', async function (this: ICustomWorld) {
   await loginPage.formEmailInput.type(loginPage.registeredEmail());
   await loginPage.formPasswordInput.type(loginPage.registeredEmailPassword());
   await loginPage.formSubmitButton.click();
-  this.page.waitForTimeout(6000);
+  this.page.waitForTimeout(10000);
 });
 
 Given(
   'the user is on the {string} page',
   async function (this: ICustomWorld, page: keyof typeof navigation.pagesObject) {
+    // const logoutPage = new LogOutPage(page);
     await this.page.goto(navigation.pagesObject()[page]);
 
     // if (page === 'logout') {
@@ -54,19 +52,20 @@ Given(
 Then(
   'the user will able to navigate to the {string} page',
   async function (this: ICustomWorld, pageNav: keyof typeof dataText.ar.navigation) {
-    const navigation = new Navigation(this.page);
-    await navigation.menuButton.click();
-    await navigation.menuList
-      .getByText(dataText.ar.navigation[pageNav])
-      .click()
-      .then(() => {
-        if (pageNav === 'logout') {
-          navigation.checkUnauthenticated();
-        } else {
+    if (pageNav === 'logout') {
+      const logoutPage = new LogOutPage(this.page);
+      await logoutPage.logout();
+    } else {
+      const navigation = new Navigation(this.page);
+      await navigation.menuButtonSelector().click();
+      await navigation.menuList
+        .getByText(dataText.ar.navigation[pageNav])
+        .click()
+        .then(() => {
           expect(this.page?.url()).toEqual(navigation.pagesObject()[pageNav]);
           // .should('include', navigation.pagesObject()[pageNav]);
-        }
-      });
+        });
+    }
   },
 );
 //     .find(
@@ -85,22 +84,27 @@ Then(
 //     });
 // });
 
-// When('the user clicks on the logo', () => {
-//   navigation.Logo().click();
-// });
+When('the user clicks on the logo', async function (this: ICustomWorld) {
+  const navigation = new Navigation(this.page);
+  await navigation.logo.click();
+});
 
-// Then('the user will navigate to the home page', () => {
-//   cy.url().should('eq', homePage.homePageFullUrl());
-// });
+Then('the user will navigate to the home page', async function (this: ICustomWorld) {
+  const homePage = new HomePage(this.page);
+  expect(this.page.url()).toEqual(homePage.homePageFullUrl());
+});
 
-// Then('the user will be able to navigate to the social media accounts of islamqa', () => {
-//   navigation.footer().scrollIntoView();
-//   navigation.footerInstagramIcon().should('be.visible');
-//   navigation.footerInstagramIcon().click();
-//   navigation.footerYoutubeIcon().should('be.visible');
-//   navigation.footerYoutubeIcon().click();
-//   navigation.footerFacebookIcon().should('be.visible');
-//   navigation.footerFacebookIcon().click();
-//   navigation.footerSoundCloudIcon().should('be.visible');
-//   navigation.footerSoundCloudIcon().click();
-// });
+Then(
+  'the user will be able to navigate to the social media accounts of islamqa',
+  async function (this: ICustomWorld) {
+    // navigation.footer().scrollIntoView();
+    expect(navigation.footerInstagramIcon).toBeVisible();
+    await navigation.footerInstagramIcon.click();
+    expect(navigation.footerYoutubeIcon).toBeVisible();
+    await navigation.footerYoutubeIcon.click();
+    expect(navigation.footerFacebookIcon).toBeVisible();
+    await navigation.footerFacebookIcon.click();
+    expect(navigation.footerSoundCloudIcon).toBeVisible();
+    await navigation.footerSoundCloudIcon.click();
+  },
+);

@@ -4,7 +4,7 @@ const page = config.BASE_URL;
 const quizIslamqaUrl = 'https://quiz.islamqa.info/';
 const quizIslamqaUrlOS = 'https://atq.outsystemscloud.com/IslamQA_Quiz/';
 const quizIslamqaUrlBubble = 'https://islamqa-quiz.bubbleapps.io/version-test/';
-export class HomePage {
+class HomePage {
   welcomeSectionSelector() {
     if (page === quizIslamqaUrl) {
       return "[data-sut-hero-section='true']";
@@ -86,3 +86,4 @@ export class HomePage {
     await this.page?.goto(this.homePageFullUrl());
   }
 }
+export default HomePage;

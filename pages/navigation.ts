@@ -5,7 +5,7 @@
 // Cannot know if I am not authenticated
 
 import ContactPage from './contactPage';
-import { HomePage } from './homePage';
+import HomePage from './homePage';
 
 import FaqPage from './faqPage';
 import CompetitionPage from './competitionPage';
@@ -36,17 +36,30 @@ const loginPage = new LoginPage(undefined);
 const signUpPage = new SignUpPage();
 class Navigation {
   readonly page: Page | undefined;
-  readonly menuButton!: Locator;
+  readonly menuButtonMain!: Locator;
+  readonly menuButtonOS!: Locator;
+  readonly menuButtonBubble!: Locator;
   readonly menuList!: Locator;
   readonly menuListItem!: Locator;
   readonly menuListItemStartCompetition!: Locator;
+  readonly logo!: Locator;
+  readonly footerInstagramIcon!: Locator;
+  readonly footerFacebookIcon!: Locator;
+  readonly footerSoundCloudIcon!: Locator;
+  readonly footerYoutubeIcon!: Locator;
   constructor(page: Page | undefined) {
     this.page = page;
     if (page) {
-      this.menuButton = page.getByRole('button', { name: 'menu-svg' });
+      this.menuButtonMain = page.getByRole('button', { name: 'menu-svg' });
+      this.menuButtonBubble = page.locator('div:nth-child(2) > .bubble-element').first();
       this.menuList = page.locator(this.menuListSelector());
       this.menuListItem = page.locator(this.menuListItemSelector());
       this.menuListItemStartCompetition = page.locator(this.menuListItemStartCompetitionSelector());
+      this.logo = page.locator(this.Logo());
+      this.footerFacebookIcon = page.locator(this.footerFacebookIconSelector());
+      this.footerSoundCloudIcon = page.locator(this.footerSoundCloudIconSelector());
+      this.footerYoutubeIcon = page.locator(this.footerYoutubeIconSelector());
+      this.footerInstagramIcon = page.locator(this.footerInstagramIconSelector());
     }
   }
   pagesObject() {
@@ -79,15 +92,14 @@ class Navigation {
 
   menuButtonSelector() {
     if (page === quizIslamqaUrl) {
-      return 'button img';
+      return this.menuButtonMain;
     }
     if (page === quizIslamqaUrlOS) {
-      return '.menu-icon';
+      return this.menuButtonOS;
     }
     if (page === quizIslamqaUrlBubble) {
-      return '[style="align-self: flex-start; min-width: 0%; max-width: 960px; order: 3; min-height: 140px; max-height: 140px; width: 0%; flex-grow: 1; height: 140px; margin: 0px; justify-content: space-between; overflow: visible; border-radius: 0px; padding: 0px 24px;"] > .CustomElement > .bubble-element';
+      return this.menuButtonBubble;
     }
-    return '';
   }
 
   menuListSelector() {
@@ -130,7 +142,7 @@ class Navigation {
     return '';
   }
 
-  footerInstagramIcon() {
+  footerInstagramIconSelector() {
     if (page === quizIslamqaUrl) {
       return "a[href='https://www.instagram.com/islamqa/']";
     }
@@ -142,7 +154,7 @@ class Navigation {
     }
   }
 
-  footerSoundCloudIcon() {
+  footerSoundCloudIconSelector() {
     if (page === quizIslamqaUrl) {
       return "a[href='https://soundcloud.com/islamqa']";
     }
@@ -154,7 +166,7 @@ class Navigation {
     }
   }
 
-  footerYoutubeIcon() {
+  footerYoutubeIconSelector() {
     if (page === quizIslamqaUrl) {
       return "a[href='https://www.youtube.com/channel/UCNiLZ4Nq_eh1YeItHqahtVg']";
     }
@@ -165,7 +177,7 @@ class Navigation {
       return '[style="z-index: 4; align-self: flex-start; min-width: 40px; max-width: 40px; order: 3; min-height: 40px; max-height: 40px; width: 40px; flex-grow: 1; height: 40px; margin: 0px; padding: 5px; text-align: center; background: none; border: none; display: block; color: rgb(255, 255, 255); border-radius: 4px; cursor: pointer;"]';
     }
   }
-  footerFacebookIcon() {
+  footerFacebookIconSelector() {
     if (page === quizIslamqaUrl) {
       return "a[href='https://www.facebook.com/IslamQAcom']";
     }
