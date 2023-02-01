@@ -55,6 +55,18 @@ const locale = {
         'كلمة السر يجب أن تحتوي على أرقام وحروف إنجليزية صغيرة وكبيرة',
         'كلمة المرور يجب ان تتكون من:',
       ],
+      emailInputUsedEmailErrorMessage: [
+        ' قيمة الحقل email مُستخدمة من قبل ',
+        'البريد الإلكتروني مستخدم',
+        'هذا البريد الإلكتروني مستخدم:',
+      ],
+      emailInput255CharacterErrorMessage: [
+        `
+        يجب أن يكون email عنوان بريد إلكتروني صحيح البُنية 
+       يجب أن لا يتجاوز طول النّص email 255 حروفٍ/حرفًا `,
+        'البريد الإلكتروني يجب أن يكون أقل من 255 حرف',
+        'الحد الأقصى هو 255 حرف',
+      ],
     },
     loginPage: {
       signInFormInvalidCredentialsMessage: signInFormInvalidCredentials,
@@ -72,6 +84,10 @@ const locale = {
         'البريد الألكتروني غير صحيح',
         'الرجاء إدخال بريد إلكتروني صحيح',
         'Invalid username or password.',
+      ],
+      emailInputNotActivatedMessage: [
+        `\n هذا الحساب غير مفعل بعد! \n`,
+        'الرجاء تفعيل الحساب للتمكن من تسجيل الدخول',
       ],
     },
     // الرجاء إدخال بريد إلكتروني صحيح

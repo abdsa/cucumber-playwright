@@ -32,7 +32,7 @@ Given('the user is "authenticated"', async function (this: ICustomWorld) {
   await loginPage.formEmailInput.type(loginPage.registeredEmail());
   await loginPage.formPasswordInput.type(loginPage.registeredEmailPassword());
   await loginPage.formSubmitButton.click();
-  this.page.waitForTimeout(10000);
+  this.page.waitForTimeout(3000);
 });
 
 Given(

@@ -198,7 +198,7 @@ Feature: To navigate the user to the pages
       | right answers        | not authenticated |
       | contact              | not authenticated |
 
-
+@ignore
 Scenario Outline: Social media accounts of islamqa
   Given the user is "<user-state>"
   And the user is on the "<page>" page

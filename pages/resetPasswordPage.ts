@@ -1,10 +1,15 @@
 import { config } from '../src/support/config';
+import { Page } from '@playwright/test';
 
 const page = config.BASE_URL;
 const quizIslamqaUrl = 'https://quiz.islamqa.info/';
 const quizIslamqaUrlOS = 'https://atq.outsystemscloud.com/IslamQA_Quiz/';
 const quizIslamqaUrlBubble = 'https://islamqa-quiz.bubbleapps.io/version-test/';
 class ResetPasswordPage {
+  readonly page: Page | undefined;
+  constructor(page: Page | undefined) {
+    this.page = page;
+  }
   resetPasswordPageUrl() {
     if (page === quizIslamqaUrl) {
       return `${page}forget-password`;
@@ -15,6 +20,10 @@ class ResetPasswordPage {
     if (page === quizIslamqaUrlBubble) {
       return `${page}reset-password`;
     }
+  }
+
+  async goto() {
+    await this.page.goto(this.resetPasswordPageUrl());
   }
 
   // resetPasswordForm() {

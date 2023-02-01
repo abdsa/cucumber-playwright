@@ -5,6 +5,19 @@ const quizIslamqaUrl = 'https://quiz.islamqa.info/';
 const quizIslamqaUrlOS = 'https://atq.outsystemscloud.com/IslamQA_Quiz/';
 const quizIslamqaUrlBubble = 'https://islamqa-quiz.bubbleapps.io/version-test/';
 class HomePage {
+  signInForm() {
+    if (page === quizIslamqaUrl) {
+      return this.page.locator('#authSection');
+    }
+    if (page === quizIslamqaUrlOS) {
+      return this.page.locator('#Register_Login');
+    }
+    if (page === quizIslamqaUrlBubble) {
+      return this.page.locator(
+        '[style="align-self: flex-start; min-width: 100%; max-width: 100%; order: 10; min-height: 0px; height: max-content; flex-grow: 0; flex-shrink: 0; width: 100%; margin: 0px; justify-content: flex-start; overflow: visible; background-color: rgb(255, 255, 255); border-radius: 0px; padding: 60px 36px;"]',
+      );
+    }
+  }
   welcomeSectionSelector() {
     if (page === quizIslamqaUrl) {
       return "[data-sut-hero-section='true']";
@@ -18,6 +31,18 @@ class HomePage {
     return '';
   }
 
+  homePageFullUrlWithHome() {
+    if (page === quizIslamqaUrl) {
+      return quizIslamqaUrl;
+    }
+    if (page === quizIslamqaUrlOS) {
+      return `${quizIslamqaUrlOS}home`;
+    }
+    if (page === quizIslamqaUrlBubble) {
+      return quizIslamqaUrlBubble;
+    }
+    return '';
+  }
   homePageFullUrl() {
     if (page === quizIslamqaUrl) {
       return quizIslamqaUrl;
@@ -68,7 +93,7 @@ class HomePage {
     }
     return '';
   }
-  readonly page;
+  readonly page: Page | undefined;
   readonly welcomeSection!: Locator;
   readonly descriptionSection!: Locator;
   readonly instructionsSection!: Locator;

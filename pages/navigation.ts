@@ -5,7 +5,7 @@
 // Cannot know if I am not authenticated
 
 import ContactPage from './contactPage';
-import HomePage from './homePage';
+// import HomePage from './homePage';
 
 import FaqPage from './faqPage';
 import CompetitionPage from './competitionPage';
@@ -23,7 +23,7 @@ const page = config.BASE_URL;
 const quizIslamqaUrl = 'https://quiz.islamqa.info/';
 const quizIslamqaUrlOS = 'https://atq.outsystemscloud.com/IslamQA_Quiz/';
 const quizIslamqaUrlBubble = 'https://islamqa-quiz.bubbleapps.io/version-test/';
-const homePage = new HomePage(undefined);
+// const homePage = new HomePage(undefined);
 const faqPage = new FaqPage();
 const competitionPage = new CompetitionPage();
 const contactPage = new ContactPage(undefined);
@@ -31,9 +31,9 @@ const profilePage = new ProfilePage();
 const winnersPage = new WinnersPage();
 const rightAnswersPage = new RightAnswersPage();
 const termsPage = new TermsPage();
-const resetPasswordPage = new ResetPasswordPage();
+const resetPasswordPage = new ResetPasswordPage(undefined);
 const loginPage = new LoginPage(undefined);
-const signUpPage = new SignUpPage();
+const signUpPage = new SignUpPage(undefined);
 class Navigation {
   readonly page: Page | undefined;
   readonly menuButtonMain!: Locator;
@@ -204,21 +204,20 @@ class Navigation {
 
   async checkUnauthenticated() {
     if (page === quizIslamqaUrl) {
-      await this.page?.goto(`${page}/competition`);
-      await this.page?.evaluate(() => {
-        expect(localStorage.getItem('auth_info')).toBeNull();
-      });
+      await this.page?.goto(`${page}quiz`);
+      await this.page.waitForTimeout(2000);
+      expect(this.page?.url()).toEqual(`${page}login`);
     }
 
     if (page === quizIslamqaUrlBubble) {
-      await this.page?.goto(`${page}/competition`);
+      await this.page?.goto(`${page}competition`);
       expect(this.page?.url()).toEqual(`${page}login`);
     }
     if (page === quizIslamqaUrlOS) {
-      await this.page?.goto(homePage.homePageFullUrl());
-      await this.page?.evaluate(() => {
-        expect(localStorage.getItem('$OS_Users$$ClientVars$$SESSION_USER_ID')).toEqual('0');
-      });
+      await this.page?.goto(`${page}competition`);
+      await this.page.waitForTimeout(2000);
+      // await this.page.waitForNavigation();
+      expect(this.page?.url()).toEqual(`${page}Login`);
     }
   }
 

@@ -79,6 +79,7 @@ class LogOutPage {
       await this.menuButtonBubble.click();
       await this.logoutMenuItemBubble.click();
       // await this.appMenuOverlayBubble.click();
+      await this.page.waitForTimeout(2000);
       await navigation.checkUnauthenticated();
     }
   }
