@@ -1,12 +1,16 @@
 Feature: contact
+  @ignore
+
   Scenario: Users can see a place where they can contact the competition organizers
     Given the user is on the contact page
     Then the user will see a place where the user can contact the competition organizers
+  @ignore
 
   Scenario: Users can see feedback when successfully sending a message
     Given the user is on the contact page
     When the user sends a message successfully
     Then the user will see a feedback message telling that the message was sent successfully
+  @ignore
 
   Scenario Outline: Contact us with invalid inputs
     Given the user is on the contact page

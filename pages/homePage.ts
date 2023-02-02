@@ -80,7 +80,17 @@ class HomePage {
     }
     return '';
   }
-
+  redirectToHomePageUrl() {
+    if (page === quizIslamqaUrl) {
+      return 'https://quiz.islamqa.info/';
+    }
+    if (page === quizIslamqaUrlOS) {
+      return 'https://atq.outsystemscloud.com/IslamQA_Quiz/Login';
+    }
+    if (page === quizIslamqaUrlBubble) {
+      return 'https://islamqa-quiz.bubbleapps.io/version-test/login';
+    }
+  }
   prizeSectionSelector() {
     if (page === quizIslamqaUrl) {
       return "[data-sut-prize-section='true']";

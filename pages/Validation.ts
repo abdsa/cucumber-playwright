@@ -3,6 +3,7 @@ import LoginPage from './loginPage';
 
 import ContactPage from './contactPage';
 import SignUpPage from './signUpPage';
+import ProfilePage from './profilePage';
 import { config } from '../src/support/config';
 import dataText from '../dataText';
 import { Page, expect } from '@playwright/test';
@@ -21,6 +22,24 @@ class Validation {
     const loginPage = new LoginPage(this.page);
     const contactPage = new ContactPage(this.page);
     const signUpPage = new SignUpPage(this.page);
+    const profilePage = new ProfilePage(this.page);
+    if (this.page.url() === profilePage.profilePageUrl()) {
+      if (input !== 'country') {
+        await profilePage.selectCountry();
+      }
+      if (input === 'name') {
+        await profilePage.phoneNumberInput().type(profilePage.formFillPhoneNumber());
+      }
+
+      if (input === 'country') {
+        await profilePage.formNameInput().type(profilePage.formFillName());
+        await profilePage.phoneNumberInput().type(profilePage.formFillPhoneNumber());
+      }
+      if (input === 'phone_number') {
+        await profilePage.formNameInput().type(profilePage.formFillName());
+      }
+      await signUpPage.formSubmitButton.click();
+    }
     if (this.page.url() === contactPage.contactPageUrl()) {
       if (input === 'email') {
         await contactPage.formNameInput.type(contactPage.formFillName());
@@ -149,6 +168,23 @@ class Validation {
     }
   }
 
+  async violateMax_99Rule() {
+    const profilePage = new ProfilePage(this.page);
+    if (page === quizIslamqaUrl) {
+      await profilePage
+        .phoneNumberInput()
+        .type(dataText.ar.profile.profileFormPhoneNumberInputMax310);
+    }
+    if (page === quizIslamqaUrlOS || page === quizIslamqaUrlBubble) {
+      await profilePage.formNameInput().type(profilePage.formFillName());
+      await profilePage.selectCountry();
+      await profilePage
+        .phoneNumberInput()
+        .type(dataText.ar.profile.profileFormPhoneNumberInputMax310);
+      await profilePage.profileFormUpdate().click();
+    }
+  }
+
   async showNotMatchedPasswordsError() {
     const signUpPage = new SignUpPage(this.page);
     if (page === quizIslamqaUrl || page === quizIslamqaUrlOS) {
@@ -173,6 +209,7 @@ class Validation {
     const loginPage = new LoginPage(this.page);
     const signUpPage = new SignUpPage(this.page);
     const contactPage = new ContactPage(this.page);
+    const profilePage = new ProfilePage(this.page);
     if (page === quizIslamqaUrl) {
       await expect(signUpPage.formInputError('')).toBeVisible();
       expect(
@@ -206,6 +243,15 @@ class Validation {
           ),
         ).not.toEqual(-1);
       }
+
+      if (this.page.url() === profilePage.profilePageUrl()) {
+        await expect(contactPage.formInputError).toBeVisible();
+        expect(
+          dataText.ar.profile.requiredErrorMessage.indexOf(
+            await contactPage.formInputError.textContent(),
+          ),
+        ).not.toEqual(-1);
+      }
     }
     if (page === quizIslamqaUrlBubble) {
       if (this.page.url() === loginPage.loginPageUrl()) {
@@ -216,13 +262,27 @@ class Validation {
           ).toBeTruthy();
         });
       }
-      if (
-        this.page.url() === signUpPage.signUpPageUrl() ||
-        this.page.url() === contactPage.contactPageUrl()
-      ) {
+      if (this.page.url() === signUpPage.signUpPageUrl()) {
         await expect(signUpPage.formInputError('required')).toBeVisible();
         expect(
           dataText.ar.signUpPage.requiredErrorMessage.indexOf(
+            await signUpPage.formInputError('required').textContent(),
+          ),
+        ).not.toEqual(-1);
+      }
+      if (this.page.url() === contactPage.contactPageUrl()) {
+        await expect(signUpPage.formInputError('required')).toBeVisible();
+        expect(
+          dataText.ar.contact.requiredErrorMessage.indexOf(
+            await signUpPage.formInputError('required').textContent(),
+          ),
+        ).not.toEqual(-1);
+      }
+
+      if (this.page.url() === profilePage.profilePageUrl()) {
+        await expect(signUpPage.formInputError('required')).toBeVisible();
+        expect(
+          dataText.ar.profile.requiredErrorMessage.indexOf(
             await signUpPage.formInputError('required').textContent(),
           ),
         ).not.toEqual(-1);
@@ -326,6 +386,15 @@ class Validation {
         dataText.ar.loginPage.emailInputNotActivatedMessage[1],
       );
     }
+  }
+  async show310Message() {
+    const profilePage = new ProfilePage(this.page);
+    await expect(profilePage.formInputError()).toBeVisible();
+    expect(
+      dataText.ar.profile.profileForm310CharErrorMessage.indexOf(
+        await profilePage.formInputError().textContent(),
+      ),
+    ).not.toEqual(-1);
   }
 }
 export default Validation;

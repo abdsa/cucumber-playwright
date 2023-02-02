@@ -1,13 +1,16 @@
-// import dataText from "../../dataText";
-
 import { config } from '../src/support/config';
+import { Page, expect } from '@playwright/test';
 
 const page = config.BASE_URL;
-// const quizIslamqaUrl = 'https://quiz.islamqa.info/';
-// const quizIslamqaUrlOS = 'https://atq.outsystemscloud.com/IslamQA_Quiz/';
-// const quizIslamqaUrlBubble = 'https://islamqa-quiz.bubbleapps.io/version-test/';
+const quizIslamqaUrl = 'https://quiz.islamqa.info/';
+const quizIslamqaUrlOS = 'https://atq.outsystemscloud.com/IslamQA_Quiz/';
+const quizIslamqaUrlBubble = 'https://islamqa-quiz.bubbleapps.io/version-test/';
 
 class ProfilePage {
+  readonly page: Page | undefined;
+  constructor(page: Page | undefined) {
+    this.page = page;
+  }
   // inputsObject() {
   //   return {
   //     name: this.formNameInput(),
@@ -15,197 +18,188 @@ class ProfilePage {
   //     phone_number: this.phoneNumberInput(),
   //   };
   // }
-
+  async goto() {
+    await this.page.goto(this.profilePageUrl());
+  }
   profilePageUrl() {
     return `${page}profile`;
   }
 
-  // profileUpdateForm() {
-  //   if (page === quizIslamqaUrl || page === quizIslamqaUrlOS) {
-  //     return cy.get('form');
-  //   } else {
-  //     return cy.get(
-  //       '[style="align-self: flex-start; min-width: 100%; max-width: 100%; order: 7; min-height: 280px; height: max-content; flex-grow: 0; flex-shrink: 0; width: 100%; margin: 0px; justify-content: flex-start; overflow: visible; background-color: rgb(255, 255, 255); border-radius: 0px; padding: 60px 36px;"]',
-  //     );
-  //   }
-  // }
+  profileUpdateForm() {
+    if (page === quizIslamqaUrl || page === quizIslamqaUrlOS) {
+      return this.page.locator('form');
+    } else {
+      return this.page.locator(
+        '[style="align-self: flex-start; min-width: 100%; max-width: 100%; order: 7; min-height: 280px; height: max-content; flex-grow: 0; flex-shrink: 0; width: 100%; margin: 0px; justify-content: flex-start; overflow: visible; background-color: rgb(255, 255, 255); border-radius: 0px; padding: 60px 36px;"]',
+      );
+    }
+  }
 
-  // formNameInput() {
-  //   if (page === quizIslamqaUrl) {
-  //     return cy.get("[name='name']");
-  //   }
+  formNameInput() {
+    if (page === quizIslamqaUrl) {
+      return this.page.locator("[name='name']");
+    }
 
-  //   if (page === quizIslamqaUrlOS) {
-  //     return cy.get('#Input_NameVar');
-  //   }
+    if (page === quizIslamqaUrlOS) {
+      return this.page.locator('#Input_NameVar');
+    }
 
-  //   if (page === quizIslamqaUrlBubble) {
-  //     return cy.get("[placeholder='الاسم الثلاثي']");
-  //   }
-  // }
+    if (page === quizIslamqaUrlBubble) {
+      return this.page.locator("[placeholder='الاسم الثلاثي']");
+    }
+  }
 
-  // phoneNumberInput() {
-  //   if (page === quizIslamqaUrl) {
-  //     return cy.get("[name='tel']");
-  //   }
+  phoneNumberInput() {
+    if (page === quizIslamqaUrl) {
+      return this.page.locator("[name='tel']");
+    }
 
-  //   if (page === quizIslamqaUrlOS) {
-  //     return cy.get('#Input_PhoneVar');
-  //   }
+    if (page === quizIslamqaUrlOS) {
+      return this.page.locator('#Input_PhoneVar');
+    }
 
-  //   if (page === quizIslamqaUrlBubble) {
-  //     return cy.get("[placeholder='رقم هاتفك الشخصي']");
-  //   }
-  // }
+    if (page === quizIslamqaUrlBubble) {
+      return this.page.locator("[placeholder='رقم هاتفك الشخصي']");
+    }
+  }
 
-  // profileFormCountryInput() {
-  //   return cy.get('#react-select-2-input');
-  // }
+  profileFormCountryInput() {
+    return this.page.locator('#react-select-2-input');
+  }
 
-  // profileFormDescription() {
-  //   return cy.get('.shadow-lg');
-  // }
+  profileFormDescription() {
+    return this.page.locator('.shadow-lg');
+  }
 
-  // formFillPhoneNumber() {
-  //   return '05313433311';
-  // }
-  // statusMessage(isPopup: boolean) {
-  //   if (page === quizIslamqaUrl) {
-  //     return cy.get("[role='status']");
-  //   }
+  formFillPhoneNumber() {
+    return '05313433311';
+  }
+  statusMessage(isPopup: boolean) {
+    if (page === quizIslamqaUrl) {
+      return this.page.locator("[role='status']");
+    }
 
-  //   if (page === quizIslamqaUrlOS) {
-  //     return cy.get('.feedback-message-text');
-  //   }
+    if (page === quizIslamqaUrlOS) {
+      return this.page.locator('.feedback-message-text');
+    }
 
-  //   if (page === quizIslamqaUrlBubble) {
-  //     if (isPopup) {
-  //       return cy.get('.Popup');
-  //     }
-  //     if (!isPopup) {
-  //       return cy.get('.validation-message');
-  //     }
-  //   }
-  // }
+    if (page === quizIslamqaUrlBubble) {
+      if (isPopup) {
+        return this.page.locator('.Popup');
+      }
+      if (!isPopup) {
+        return this.page.locator('.validation-message');
+      }
+    }
+  }
 
-  // form255Char() {
-  //   return 'exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!@fjsdkfj.com';
-  // }
+  form255Char() {
+    return 'exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!exampleGenreal!!!@fjsdkfj.com';
+  }
 
-  // formInputError() {
-  //   if (page === quizIslamqaUrl) {
-  //     return cy.get('.text-xs:visible');
-  //   }
+  formInputError() {
+    if (page === quizIslamqaUrl) {
+      return this.page.locator('.text-xs:visible');
+    }
 
-  //   if (page === quizIslamqaUrlOS) {
-  //     return cy.get('.feedback-message-text');
-  //   }
+    if (page === quizIslamqaUrlOS) {
+      return this.page.locator('.feedback-message-text');
+    }
 
-  //   if (page === quizIslamqaUrlBubble) {
-  //     return cy.get('.validation-message');
-  //   }
-  // }
+    if (page === quizIslamqaUrlBubble) {
+      return this.page.locator('.validation-message');
+    }
+  }
 
-  // profileFormCheckCountrySelectValue() {
-  //   if (page === quizIslamqaUrl) {
-  //     this.countryInputValueLabel().should('not.have.text', '');
-  //   }
+  async profileFormCheckCountrySelectValue() {
+    if (page === quizIslamqaUrl) {
+      await expect(this.countryInputValueLabel()).not.toHaveText('');
+    }
 
-  //   if (page === quizIslamqaUrlOS || page === quizIslamqaUrlBubble) {
-  //     cy.get('select').find('option:selected').should('not.have.text', 'جاري التحميل...');
-  //   }
-  // }
+    if (page === quizIslamqaUrlOS || page === quizIslamqaUrlBubble) {
+      await expect(this.page.locator('select option:selected')).not.toHaveText('جاري التحميل...');
+    }
+  }
 
-  // countryInputValueLabel() {
-  //   if (page === quizIslamqaUrl) {
-  //     return cy.get('.css-qc6sy-singleValue');
-  //   }
-  // }
-  // usedEmailWithOutdatedProfile() {
-  //   return 'wedare6336@fandua.com';
-  //   // Don't use this email for other purposes
-  //   // main: nayehor942@tohup.com
-  //   // Bubble and Outsystems: wedare6336@fandua.com
-  // }
-  // profileFormUpdate() {
-  //   if (page === quizIslamqaUrl || page === quizIslamqaUrlOS) {
-  //     return cy.get("button[type='submit']");
-  //   } else {
-  //     return cy.get('.Button:visible');
-  //   }
-  // }
-  // profileFormUpdateInQuiz() {
-  //   return cy.get('.full-width > button');
-  // }
-  // formFillName() {
-  //   return 'exampleName';
-  // }
-  // formFillNameUpdatedUser() {
-  //   return 'عبدالرحمن عامر الصباغ';
-  // }
-  // formFillCountryUpdatedUser() {
-  //   return cy.get('#react-select-2-option-99');
-  // }
+  countryInputValueLabel() {
+    if (page === quizIslamqaUrl) {
+      return this.page.locator('.css-qc6sy-singleValue');
+    }
+  }
+  usedEmailWithOutdatedProfile() {
+    return 'gojideb639@breazeim.com';
+    // Don't use this email for other purposes
+    // OS: wedare366@faunda
+    // main: gojideb639@breazeim.com
+    // Bubble and Outsystems: wedare6336@fandua.com
+  }
+  profileFormUpdate() {
+    if (page === quizIslamqaUrl || page === quizIslamqaUrlOS) {
+      return this.page.locator("button[type='submit']");
+    } else {
+      return this.page.locator('.Button:visible');
+    }
+  }
+  profileFormUpdateInQuiz() {
+    return this.page.locator('.full-width > button');
+  }
+  formFillName() {
+    return 'exampleName';
+  }
+  formFillNameUpdatedUser() {
+    return 'عبدالرحمن عامر الصباغ';
+  }
+  formFillCountryUpdatedUser() {
+    return this.page.locator('#react-select-2-option-99');
+  }
 
-  // formFillCountryUpdatedUserOSValue() {
-  //   return Math.floor(Math.random() * 245) + 1;
-  // }
+  formFillCountryUpdatedUserOSValue() {
+    return Math.floor(Math.random() * 245) + 1;
+  }
 
-  // formFillPhoneNumberUpdatedUser() {
-  //   return '05522548343';
-  // }
+  formFillPhoneNumberUpdatedUser() {
+    return '05522548343';
+  }
 
-  // countrySelect() {
-  //   if (page === quizIslamqaUrl) {
-  //     return cy.get('#country');
-  //   }
+  countrySelect() {
+    if (page === quizIslamqaUrl) {
+      return this.page.locator('#country');
+    }
 
-  //   if (page === quizIslamqaUrlOS) {
-  //     return cy.get('#Dropdown1');
-  //   }
+    if (page === quizIslamqaUrlOS) {
+      return this.page.locator('#Dropdown1');
+    }
 
-  //   if (page === quizIslamqaUrlBubble) {
-  //     return cy.get('select');
-  //   }
-  // }
-  // violateRequiredRule(input: string) {
-  //   if (input !== 'country') {
-  //     this.selectCountry();
-  //   }
-  //   if (input === 'name') {
-  //     this.phoneNumberInput().type(this.formFillPhoneNumber());
-  //   }
+    if (page === quizIslamqaUrlBubble) {
+      return this.page.locator('select');
+    }
+  }
+  violateRequiredRule(input: string) {
+    if (input !== 'country') {
+      this.selectCountry();
+    }
+    if (input === 'name') {
+      this.phoneNumberInput().type(this.formFillPhoneNumber());
+    }
 
-  //   if (input === 'country') {
-  //     this.formNameInput().type(this.formFillName());
-  //     this.phoneNumberInput().type(this.formFillPhoneNumber());
-  //   }
-  //   if (input === 'phone_number') {
-  //     this.formNameInput().type(this.formFillName());
-  //   }
-  //   this.profileFormUpdate().click();
-  // }
+    if (input === 'country') {
+      this.formNameInput().type(this.formFillName());
+      this.phoneNumberInput().type(this.formFillPhoneNumber());
+    }
+    if (input === 'phone_number') {
+      this.formNameInput().type(this.formFillName());
+    }
+    this.profileFormUpdate().click();
+  }
 
-  // selectCountry() {
-  //   if (page === quizIslamqaUrl) {
-  //     this.countrySelect().click();
-  //     this.formFillCountryUpdatedUser().click();
-  //   } else {
-  //     this.countrySelect().select(this.formFillCountryUpdatedUserOSValue());
-  //   }
-  // }
-
-  // violateMax_99Rule() {
-  //   if (page === quizIslamqaUrl) {
-  //     this.phoneNumberInput().type(dataText.ar.profile.profileFormPhoneNumberInputMax310);
-  //   }
-  //   if (page === quizIslamqaUrlOS || page === quizIslamqaUrlBubble) {
-  //     this.formNameInput().type(this.formFillName());
-  //     this.selectCountry();
-  //     this.phoneNumberInput().type(dataText.ar.profile.profileFormPhoneNumberInputMax310);
-  //     this.profileFormUpdate().click();
-  //   }
-  // }
+  async selectCountry() {
+    if (page === quizIslamqaUrl) {
+      await this.countrySelect().click();
+      await this.formFillCountryUpdatedUser().click();
+    } else {
+      await this.countrySelect().selectOption({ index: this.formFillCountryUpdatedUserOSValue() });
+    }
+  }
 }
 
 export default ProfilePage;

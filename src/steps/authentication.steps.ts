@@ -103,6 +103,9 @@ Given(
     if (validityRule === 'match password') {
       await validation.violateMatchPasswordRule();
     }
+    if (validityRule === 'max_399') {
+      await validation.violateMax_99Rule();
+    }
   },
 );
 
@@ -136,6 +139,9 @@ Then(
     }
     if (validityRule === 'match password') {
       await validation.showNotMatchedPasswordsError();
+    }
+    if (validityRule === 'max_399') {
+      await validation.show310Message();
     }
   },
 );

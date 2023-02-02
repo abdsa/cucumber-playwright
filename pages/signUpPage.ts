@@ -9,7 +9,7 @@ const quizIslamqaUrlBubble = 'https://islamqa-quiz.bubbleapps.io/version-test/';
 // const loginPage = new LoginPage();
 
 class SignUpPage {
-  readonly page;
+  readonly page: Page | undefined;
   readonly signUpForm!: Locator;
   readonly formEmailInput!: Locator;
   readonly formPasswordInput!: Locator;
