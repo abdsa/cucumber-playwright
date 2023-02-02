@@ -15,6 +15,7 @@ import LogOutPage from '../../pages/logoutPage';
 import SignInPageWithResetPasswordPage from '../../pages/loginPageWithResetPasswordPage';
 import ResetPasswordPage from '../../pages/resetPasswordPage';
 import RegisterSucceededPage from '../../pages/registerSucceededPage';
+import Validation from '../../pages/Validation';
 import { Given, Then, When } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 
@@ -86,21 +87,21 @@ Then('the user will be redirected to the home page', async function (this: ICust
 Given(
   'the user violated the {string} rule for {string} field',
   async function (this: ICustomWorld, validityRule: string, inputField: string) {
-    const signUpPage = new SignUpPage(this.page);
+    const validation = new Validation(this.page);
     if (validityRule === 'required') {
-      await signUpPage.violateRequiredRule(inputField);
+      await validation.violateRequiredRule(inputField);
     }
     if (validityRule === 'email') {
-      await signUpPage.violateEmailRule();
+      await validation.violateEmailRule();
     }
     if (validityRule === 'minLength_8') {
-      await signUpPage.violateMinLength8Rule();
+      await validation.violateMinLength8Rule();
     }
     if (validityRule === 'upper-lower-number') {
-      await signUpPage.violateUpperLowerNumberRule();
+      await validation.violateUpperLowerNumberRule();
     }
     if (validityRule === 'match password') {
-      await signUpPage.violateMatchPasswordRule();
+      await validation.violateMatchPasswordRule();
     }
   },
 );
@@ -109,12 +110,13 @@ Then(
   'the user will see a {string} message because of {string} rule',
   async function (this: ICustomWorld, _errorMessage: string, validityRule: string) {
     const signUpPage = new SignUpPage(this.page);
+    const validation = new Validation(this.page);
 
     if (validityRule === 'required') {
-      await signUpPage.showRequiredMessage();
+      await validation.showRequiredMessage();
     }
     if (validityRule === 'email') {
-      await signUpPage.showInvalidEmailMessage();
+      await validation.showInvalidEmailMessage();
     }
     if (validityRule === 'minLength_8') {
       await expect(signUpPage.formInputError('minLength_8')).toBeVisible();
@@ -133,7 +135,7 @@ Then(
       ).not.toEqual(-1);
     }
     if (validityRule === 'match password') {
-      await signUpPage.showNotMatchedPasswordsError();
+      await validation.showNotMatchedPasswordsError();
     }
   },
 );
@@ -297,9 +299,10 @@ Given(
 Then(
   'the user will see a feedback message telling that the email is used',
   async function (this: ICustomWorld) {
-    const signUpPage = new SignUpPage(this.page);
+    const validation = new Validation(this.page);
+
     await this.page.waitForTimeout(2000);
-    await signUpPage.showUsedEmailMessage();
+    await validation.showUsedEmailMessage();
   },
 );
 
@@ -317,9 +320,9 @@ When(
 Then(
   'the user shall see a error message of max 255 characters that comes from the system',
   async function (this: ICustomWorld) {
-    const signUpPage = new SignUpPage(this.page);
+    const validation = new Validation(this.page);
     await this.page.waitForTimeout(2000);
-    await signUpPage.show255CharacterMessage();
+    await validation.show255CharacterMessage();
   },
 );
 
@@ -336,7 +339,7 @@ When(
 Then(
   'the user will see a feedback message telling that the account is not activated',
   async function (this: ICustomWorld) {
-    const signUpPage = new SignUpPage(this.page);
-    await signUpPage.showEmailNotActivatedMessage();
+    const validation = new Validation(this.page);
+    await validation.showEmailNotActivatedMessage();
   },
 );

@@ -10,8 +10,6 @@ class ContactPage {
   readonly formEmailInput!: Locator;
   readonly formMessageSubjectInput!: Locator;
   readonly formMessageInput!: Locator;
-  readonly contactForm!: Locator;
-
   readonly formInputError!: Locator;
   readonly formSubmitButton!: Locator;
   readonly statusMessageTrue!: Locator;
@@ -25,11 +23,8 @@ class ContactPage {
       this.formEmailInput = page.locator(this.formEmailInputSelector());
       this.formMessageSubjectInput = page.locator(this.formMessageSubjectInputSelector());
       this.formMessageInput = page.locator(this.formMessageInputSelector());
-      this.contactForm = page.locator(this.contactFormSelector());
       this.formInputError = page.locator(this.formInputErrorSelector());
       this.formSubmitButton = page.locator(this.formSubmitButtonSelector());
-      this.statusMessageTrue = page.locator(this.statusMessageSelector(true));
-      this.statusMessageFalse = page.locator(this.statusMessageSelector(false));
     }
   }
 
@@ -49,17 +44,18 @@ class ContactPage {
     return `${page}contact`;
   }
 
-  contactFormSelector() {
+  contactForm() {
     if (page === quizIslamqaUrl) {
-      return '.form-section';
+      return this.page.locator('.form-section');
     }
     if (page === quizIslamqaUrlOS) {
-      return '#b1-MainContent > .full-width-vw';
+      return this.page.locator('#b1-MainContent > .full-width-vw');
     }
     if (page === quizIslamqaUrlBubble) {
-      return '.bubble-element.Group.bubble-r-container.flex.column';
+      return this.page.getByText(
+        'نرحب بكل استفسار أو تعليقات فيما يخص التسجيل أو المشاركة في المسابقةأرسل رسالتك',
+      );
     }
-    return '';
   }
   formNameInputSelector() {
     if (page === quizIslamqaUrl || page === quizIslamqaUrlBubble) {
@@ -113,7 +109,7 @@ class ContactPage {
   }
 
   form255Char() {
-    return 'fjdklfjlaksdjfkldasjfkl;asdjfkldsjfklsadjfklsadjflkasdjsdkalfjs;dklfjsadkl;jfsdkl;fjsdkl;afjsadkl;fj@fjdklfjlaksdjfkldasjfkl;asdjfkldsjfklsadjfklsadjflkasdjsdkalfjs;dklfjsadkl;jfsdkl;fjsdkl;afjsadkl;fjfjdklfjlaksdjfkldasjfkl;asdjfkldsjfklsadjfklsadjflkasdjsdkalfjs;dklfjsadkl;jfsdkl;fjsdkl;afjsadkl;fj';
+    return 'dfasdfdsfdsajfsdakljfklsdajfdaskljfkldsajfsdalkjflsdkajfsdalkjfsdalkjfdaslkfjsdaklfjdsaklfjasdkjfskdjfslkafklsadjkalsdjklasdjfklsadfklsadjfklsadfklsadfklsadfklsadfklsadfklsadfklasdkljsdkljksladjlkasdjfklsdafkljsfkljsfklsadklasdklsadkljsakldjskladjklsdajjf@gmail.com';
   }
 
   formSubmitButtonSelector() {
@@ -123,93 +119,54 @@ class ContactPage {
       return "[style='align-self: flex-start; min-width: 100%; max-width: 100%; order: 7; min-height: 280px; height: max-content; flex-grow: 0; flex-shrink: 0; width: 100%; margin: 0px; justify-content: flex-start; overflow: visible; background-color: rgb(255, 255, 255); border-radius: 0px; padding: 60px 36px;'] > .row > .bubble-element";
     }
   }
-  statusMessageSelector(isPopup: boolean) {
+  statusMessage(isPopup: boolean) {
     if (page === quizIslamqaUrl) {
-      return "[role='status']";
+      return this.page.locator("[role='status']");
     }
     if (page === quizIslamqaUrlOS) {
-      return '.feedback-message-text';
+      return this.page.locator('.feedback-message-text');
     }
     if (page === quizIslamqaUrlBubble) {
       if (isPopup) {
-        return '.Popup';
+        return this.page.locator('.Popup:visible');
       }
       if (!isPopup) {
-        return '';
-        // '.validation-message''الرجاء ادخال 255 حرف كحد أقصى';
+        return this.page.getByText('الرجاء ادخال 255 حرف كحد أقصى');
+        // '.validation-message';
       }
     }
-    return '';
   }
 
   contactFormInvalidEmail() {
     return 'example@hello';
   }
-  // violateRequiredRule(input: string) {
-  //   if (input === 'email') {
-  //     this.formNameInput().type(this.formFillName());
-  //     this.formMessageSubjectInput().type(this.formFillMessageSubject());
-  //     this.formMessageInput().type(this.formFillMessage());
-  //     this.formSubmitButton().click();
-  //   }
-  //   if (input === 'name') {
-  //     this.formEmailInput().type(this.formFillEmail());
-  //     this.formMessageSubjectInput().type(this.formFillMessageSubject());
-  //     this.formMessageInput().type(this.formFillMessage());
-  //     this.formSubmitButton().click();
-  //   }
-  //   if (input === 'subject') {
-  //     this.formNameInput().type(this.formFillName());
-  //     this.formEmailInput().type(this.formFillEmail());
-  //     this.formMessageInput().type(this.formFillMessage());
-  //     this.formSubmitButton().click();
-  //   }
-  //   if (input === 'message') {
-  //     this.formNameInput().type(this.formFillName());
-  //     this.formEmailInput().type(this.formFillEmail());
-  //     this.formMessageSubjectInput().type(this.formFillMessageSubject());
-  //     this.formSubmitButton().click();
-  //   }
-  // }
-  // violateEmailRule() {
-  //   this.formEmailInput().type(this.contactFormInvalidEmail());
-  //   if (page === quizIslamqaUrlOS || page === quizIslamqaUrlBubble) {
-  //     this.formNameInput().type(this.formFillName());
-  //     this.formMessageSubjectInput().type(this.formFillMessageSubject());
-  //     this.formMessageInput().type(this.formFillMessage());
-  //     this.formSubmitButton().click();
-  //   }
-  // }
-  // violate255Rule(input: string) {
-  //   if (input !== 'message') {
-  //     if (page === quizIslamqaUrl || page === quizIslamqaUrlBubble) {
-  //       this.inputsObject()[input].type(this.form255Char());
-  //     }
-  //     if (page === quizIslamqaUrlOS) {
-  //       if (input === 'email') {
-  //         this.formNameInput().type(this.formFillName());
-  //         this.formMessageSubjectInput().type(this.formFillMessageSubject());
-  //         this.formMessageInput().type(this.formFillMessage());
-  //         this.inputsObject()[input].type(this.form255Char());
-  //         this.formSubmitButton().click();
-  //       }
-  //       if (input === 'name') {
-  //         this.formEmailInput().type(this.formFillEmail());
-  //         this.formMessageSubjectInput().type(this.formFillMessageSubject());
-  //         this.formMessageInput().type(this.formFillMessage());
-  //         this.inputsObject()[input].type(this.form255Char());
-  //         this.formSubmitButton().click();
-  //       }
-  //       if (input === 'subject') {
-  //         this.formNameInput().type(this.formFillName());
-  //         this.formEmailInput().type(this.formFillEmail());
-  //         this.formMessageInput().type(this.formFillMessage());
-  //         this.inputsObject()[input].type(this.form255Char());
-  //         this.formSubmitButton().click();
-  //       }
-  //     }
-  //   }
-  // }
+  async violate255Rule(input: string) {
+    if (input !== 'message') {
+      if (page === quizIslamqaUrl) {
+        // this.inputsObject()[input].type(this.form255Char());
+      }
+      if (page === quizIslamqaUrlOS || page === quizIslamqaUrlBubble) {
+        if (input === 'email') {
+          await this.formNameInput.type(this.formFillName());
+          await this.formMessageSubjectInput.type(this.formFillMessageSubject());
+          await this.formMessageInput.type(this.formFillMessage());
+          await this.formEmailInput.type(this.form255Char());
+        }
+        if (input === 'name') {
+          await this.formEmailInput.type(this.formFillEmail());
+          await this.formMessageSubjectInput.type(this.formFillMessageSubject());
+          await this.formMessageInput.type(this.formFillMessage());
+          await this.formNameInput.type(this.form255Char());
+        }
+        if (input === 'subject') {
+          await this.formNameInput.type(this.formFillName());
+          await this.formEmailInput.type(this.formFillEmail());
+          await this.formMessageInput.type(this.formFillMessage());
+          await this.formMessageSubjectInput.type(this.form255Char());
+        }
+      }
+    }
+  }
 }
 
 export default ContactPage;

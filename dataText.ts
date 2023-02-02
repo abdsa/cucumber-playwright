@@ -44,6 +44,7 @@ const locale = {
       emailInputInvalidEmailErrorMessage: [
         'البريد الألكتروني غير صحيح',
         'الرجاء إدخال بريد إلكتروني صحيح',
+        'الرجاء ادخال ايميل صحيح',
       ],
       passwordInputMinLength8ErrorMessage: [
         'يجب أن تتألف كلمة السر من 8 محارف على الأقل',
