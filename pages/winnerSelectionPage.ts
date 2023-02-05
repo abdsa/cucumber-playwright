@@ -27,7 +27,7 @@ class WinnerSelectionPage {
     return this.page.locator('select');
   }
 
-  winnerSelectionFirstQualifiedCompetitor() {
+  winnerSelectionFirstQualifiedCompetitorLocator() {
     if (page === quizIslamqaUrlOS) {
       return this.page.locator('.list-item');
     }
@@ -37,13 +37,33 @@ class WinnerSelectionPage {
     }
   }
 
-  winnerSelectionSelectingTheWinnersButton() {
+  winnerSelectionFirstQualifiedCompetitorSelector() {
+    if (page === quizIslamqaUrlOS) {
+      return '.list-item';
+    }
+
+    if (page === quizIslamqaUrlBubble) {
+      return '.entry-1';
+    }
+  }
+
+  winnerSelectionSelectingTheWinnersButtonLocator() {
     if (page === quizIslamqaUrlOS) {
       return this.page.locator('button');
     }
 
     if (page === quizIslamqaUrlBubble) {
       return this.page.locator('.RepeatingGroup .clickable-element:visible');
+    }
+  }
+
+  winnerSelectionSelectingTheWinnersButtonSelector() {
+    if (page === quizIslamqaUrlOS) {
+      return 'button';
+    }
+
+    if (page === quizIslamqaUrlBubble) {
+      return '.RepeatingGroup .clickable-element:visible';
     }
   }
 }
