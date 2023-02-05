@@ -79,15 +79,9 @@ class Validation {
     }
     if (this.page.url() === signUpPage.signUpPageUrl()) {
       if (input === 'email') {
-        if (page === quizIslamqaUrl) {
-          await signUpPage.formEmailInput.type(signUpPage.unregisteredEmail());
-          await signUpPage.formEmailInput.clear();
-        }
-        if (page === quizIslamqaUrlOS || page === quizIslamqaUrlBubble) {
-          await signUpPage.formPasswordInput.type(signUpPage.unregisteredEmailPassword());
-          await signUpPage.formConfirmPasswordInput.type(signUpPage.unregisteredEmailPassword());
-          await signUpPage.formSubmitButton.click();
-        }
+        await signUpPage.formPasswordInput.type(signUpPage.unregisteredEmailPassword());
+        await signUpPage.formConfirmPasswordInput.type(signUpPage.unregisteredEmailPassword());
+        await signUpPage.formSubmitButton.click();
       }
       if (input === 'password') {
         if (page === quizIslamqaUrl) {
@@ -101,15 +95,9 @@ class Validation {
         }
       }
       if (input === 'confirm_password') {
-        if (page === quizIslamqaUrl) {
-          await signUpPage.formConfirmPasswordInput.type(signUpPage.unregisteredEmail());
-          await signUpPage.formConfirmPasswordInput.clear();
-        }
-        if (page === quizIslamqaUrlOS || page === quizIslamqaUrlBubble) {
-          await signUpPage.formEmailInput.type(signUpPage.unregisteredEmail());
-          await signUpPage.formPasswordInput.type(signUpPage.unregisteredEmailPassword());
-          await signUpPage.formSubmitButton.click();
-        }
+        await signUpPage.formEmailInput.type(signUpPage.unregisteredEmail());
+        await signUpPage.formPasswordInput.type(signUpPage.unregisteredEmailPassword());
+        await signUpPage.formSubmitButton.click();
       }
     }
   }
@@ -119,7 +107,7 @@ class Validation {
     const signUpPage = new SignUpPage(this.page);
     const resetPasswordPage = new ResetPasswordPage(this.page);
     if (page === quizIslamqaUrl) {
-      await signUpPage.formEmailInputLoginPage().type(signUpPage.invalidEmail());
+      await signUpPage.formEmailInput.type(signUpPage.invalidEmail());
     }
     if (page === quizIslamqaUrlOS || page === quizIslamqaUrlBubble) {
       if (this.page.url() === loginPage.loginPageUrl()) {
@@ -134,7 +122,6 @@ class Validation {
         await signUpPage.formSubmitButton.click();
       }
       if (this.page.url() === contactPage.contactPageUrl()) {
-        // eslint-disable-next-line no-console
         await contactPage.formEmailInput.type(contactPage.contactFormInvalidEmail());
         await contactPage.formNameInput.type(contactPage.formFillName());
         await contactPage.formMessageSubjectInput.type(contactPage.formFillMessageSubject());
@@ -290,27 +277,27 @@ class Validation {
         ).not.toEqual(-1);
       }
       if (this.page.url() === contactPage.contactPageUrl()) {
-        await expect(signUpPage.formInputError('required')).toBeVisible();
+        await expect(contactPage.formInputError).toBeVisible();
         expect(
           dataText.ar.contact.requiredErrorMessage.indexOf(
-            await signUpPage.formInputError('required').textContent(),
+            await contactPage.formInputError.textContent(),
           ),
         ).not.toEqual(-1);
       }
 
       if (this.page.url() === profilePage.profilePageUrl()) {
-        await expect(signUpPage.formInputError('required')).toBeVisible();
+        await expect(profilePage.formInputError()).toBeVisible();
         expect(
           dataText.ar.profile.requiredErrorMessage.indexOf(
-            await signUpPage.formInputError('required').textContent(),
+            await profilePage.formInputError().textContent(),
           ),
         ).not.toEqual(-1);
       }
       if (this.page.url() === resetPasswordPage.resetPasswordPageUrl()) {
-        await expect(signUpPage.formInputError('required')).toBeVisible();
+        await expect(resetPasswordPage.formInputError('required')).toBeVisible();
         expect(
           dataText.ar.resetPassword.requiredErrorMessage.indexOf(
-            await signUpPage.formInputError('required').textContent(),
+            await resetPasswordPage.formInputError('required').textContent(),
           ),
         ).not.toEqual(-1);
       }
@@ -337,39 +324,40 @@ class Validation {
           ),
         ).not.toEqual(-1);
       }
-    }
-    if (this.page.url() === loginPage.loginPageUrl()) {
-      await expect(signUpPage.formInputErrorLoginPage('email')).toBeVisible();
-      expect(
-        dataText.ar.loginPage.emailInputInvalidEmailErrorMessage.indexOf(
-          await signUpPage.formInputErrorLoginPage('email').textContent(),
-        ),
-      ).not.toEqual(-1);
-    }
-    if (this.page.url() === signUpPage.signUpPageUrl()) {
-      await expect(signUpPage.formInputError('email')).toBeVisible();
-      expect(
-        dataText.ar.signUpPage.emailInputInvalidEmailErrorMessage.indexOf(
-          await signUpPage.formInputError('email').textContent(),
-        ),
-      ).not.toEqual(-1);
-    }
-    if (this.page.url() === contactPage.contactPageUrl()) {
-      await expect(contactPage.formInputError).toBeVisible();
-      expect(
-        dataText.ar.contact.invalidEmailErrorMessage.indexOf(
-          await signUpPage.formInputError('email').textContent(),
-        ),
-      ).not.toEqual(-1);
-    }
+    } else {
+      if (this.page.url() === loginPage.loginPageUrl()) {
+        await expect(signUpPage.formInputErrorLoginPage('email')).toBeVisible();
+        expect(
+          dataText.ar.loginPage.emailInputInvalidEmailErrorMessage.indexOf(
+            await signUpPage.formInputErrorLoginPage('email').textContent(),
+          ),
+        ).not.toEqual(-1);
+      }
+      if (this.page.url() === signUpPage.signUpPageUrl()) {
+        await expect(signUpPage.formInputError('email')).toBeVisible();
+        expect(
+          dataText.ar.signUpPage.emailInputInvalidEmailErrorMessage.indexOf(
+            await signUpPage.formInputError('email').textContent(),
+          ),
+        ).not.toEqual(-1);
+      }
+      if (this.page.url() === contactPage.contactPageUrl()) {
+        await expect(contactPage.formInputError).toBeVisible();
+        expect(
+          dataText.ar.contact.invalidEmailErrorMessage.indexOf(
+            await contactPage.formInputError.textContent(),
+          ),
+        ).not.toEqual(-1);
+      }
 
-    if (this.page.url() === resetPasswordPage.resetPasswordPageUrl()) {
-      await expect(resetPasswordPage.formInputError('email')).toBeVisible();
-      expect(
-        dataText.ar.resetPassword.invalidEmailErrorMessage.indexOf(
-          await resetPasswordPage.formInputError('email').textContent(),
-        ),
-      ).not.toEqual(-1);
+      if (this.page.url() === resetPasswordPage.resetPasswordPageUrl()) {
+        await expect(resetPasswordPage.formInputError('email')).toBeVisible();
+        expect(
+          dataText.ar.resetPassword.invalidEmailErrorMessage.indexOf(
+            await resetPasswordPage.formInputError('email').textContent(),
+          ),
+        ).not.toEqual(-1);
+      }
     }
   }
   async showUsedEmailMessage() {
