@@ -26,89 +26,89 @@ class ResetPasswordPage {
     await this.page.goto(this.resetPasswordPageUrl());
   }
 
-  // resetPasswordForm() {
-  //   return page === quizIslamqaUrl ? cy.get("form") : cy.get("input");
-  // }
+  resetPasswordForm() {
+    return page === quizIslamqaUrl ? this.page.locator('form') : this.page.locator('input');
+  }
 
-  // formEmailInput() {
-  //   return cy.get("input");
-  // }
+  formEmailInput() {
+    return this.page.locator('input');
+  }
 
-  // resetPasswordFormLoginLink() {
-  //   return cy.get(".hyperlink-text");
-  // }
+  resetPasswordFormLoginLink() {
+    return this.page.locator('.hyperlink-text');
+  }
 
-  // resetPasswordFormUnregisteredEmail() {
-  //   return "fasdjfsldkf@gmail.com";
-  // }
+  resetPasswordFormUnregisteredEmail() {
+    return 'fasdjfsldkf@gmail.com';
+  }
 
-  // resetPasswordFormOnRequestButton() {
-  //   if (page === quizIslamqaUrl) {
-  //     return cy.get("button[type='submit']");
-  //   }
-  //   if (page === quizIslamqaUrlOS) {
-  //     return cy.get("button[type='button']");
-  //   }
-  //   if (page === quizIslamqaUrlBubble) {
-  //     return cy.get(".Button:visible");
-  //   }
-  // }
+  resetPasswordFormOnRequestButton() {
+    if (page === quizIslamqaUrl) {
+      return this.page.locator("button[type='submit']");
+    }
+    if (page === quizIslamqaUrlOS) {
+      return this.page.locator("button[type='button']");
+    }
+    if (page === quizIslamqaUrlBubble) {
+      return this.page.locator('.Button:visible');
+    }
+  }
 
-  // statusMessage(isPopup: boolean) {
-  //   if (page === quizIslamqaUrl) {
-  //     return cy.get(".go2072408551");
-  //   }
-  //   if (page === quizIslamqaUrlOS) {
-  //     return cy.get(".feedback-message-text");
-  //   }
-  //   if (page === quizIslamqaUrlBubble) {
-  //     if (isPopup) {
-  //       return cy.get(".Popup");
-  //     } else {
-  //       return cy.get(".validation-message");
-  //     }
-  //   }
-  // }
+  statusMessage(isPopup: boolean) {
+    if (page === quizIslamqaUrl) {
+      return this.page.locator('.go2072408551');
+    }
+    if (page === quizIslamqaUrlOS) {
+      return this.page.locator('.feedback-message-text');
+    }
+    if (page === quizIslamqaUrlBubble) {
+      if (isPopup) {
+        return this.page.locator('.Popup');
+      } else {
+        return this.page.locator('.validation-message');
+      }
+    }
+  }
 
-  // resetPasswordFormTitle() {
-  //   return cy.get("h1");
-  // }
+  resetPasswordFormTitle() {
+    return this.page.locator('h1');
+  }
 
-  // resetFormInvalidEmail() {
-  //   return "example@hello";
-  // }
-  // resetPasswordRegisteredEmail() {
-  //   return "abd.sab111@gmail.com";
-  // }
+  resetFormInvalidEmail() {
+    return 'example@hello';
+  }
+  resetPasswordRegisteredEmail() {
+    return 'abd.sab111@gmail.com';
+  }
 
-  // formInputError(validityRuleForBubble: "email" | "required") {
-  //   if (page === quizIslamqaUrl) {
-  //     return cy.get(".text-xs:visible");
-  //   }
-  //   if (page === quizIslamqaUrlOS) {
-  //     return cy.get(".feedback-message-text");
-  //   }
-  //   if (page === quizIslamqaUrlBubble) {
-  //     if (validityRuleForBubble === "email") {
-  //       return cy
-  //         .get(".validation-message")
-  //         .contains("الرجاء إدخال بريد إلكتروني صحيح");
-  //     }
-  //     if (validityRuleForBubble === "required") {
-  //       return cy.get(".validation-message").contains("هذا الحقل مطلوب");
-  //     }
-  //   }
-  // }
+  formInputError(validityRuleForBubble: 'email' | 'required') {
+    if (page === quizIslamqaUrl) {
+      return this.page.locator('.text-xs:visible');
+    }
+    if (page === quizIslamqaUrlOS) {
+      return this.page.locator('.feedback-message-text');
+    }
+    if (page === quizIslamqaUrlBubble) {
+      if (validityRuleForBubble === 'email') {
+        return this.page
+          .locator('.validation-message')
+          .filter({ hasText: 'الرجاء إدخال بريد إلكتروني صحيح' });
+      }
+      if (validityRuleForBubble === 'required') {
+        return this.page.locator('.validation-message').filter({ hasText: 'هذا الحقل مطلوب' });
+      }
+    }
+  }
 
-  // violateRequiredRule() {
-  //   this.resetPasswordFormOnRequestButton().click();
-  // }
-  // violateEmailRule() {
-  //   this.formEmailInput().type(this.resetFormInvalidEmail());
-  //   if (page === quizIslamqaUrlOS || page === quizIslamqaUrlBubble) {
-  //     this.resetPasswordFormOnRequestButton().click();
-  //   }
-  // }
+  violateRequiredRule() {
+    this.resetPasswordFormOnRequestButton().click();
+  }
+  violateEmailRule() {
+    this.formEmailInput().type(this.resetFormInvalidEmail());
+    if (page === quizIslamqaUrlOS || page === quizIslamqaUrlBubble) {
+      this.resetPasswordFormOnRequestButton().click();
+    }
+  }
 }
 
 export default ResetPasswordPage;

@@ -4,6 +4,7 @@ import LoginPage from './loginPage';
 import ContactPage from './contactPage';
 import SignUpPage from './signUpPage';
 import ProfilePage from './profilePage';
+import ResetPasswordPage from './resetPasswordPage';
 import { config } from '../src/support/config';
 import dataText from '../dataText';
 import { Page, expect } from '@playwright/test';
@@ -23,6 +24,10 @@ class Validation {
     const contactPage = new ContactPage(this.page);
     const signUpPage = new SignUpPage(this.page);
     const profilePage = new ProfilePage(this.page);
+    const resetPasswordPage = new ResetPasswordPage(this.page);
+    if (this.page.url() === resetPasswordPage.resetPasswordPageUrl()) {
+      await resetPasswordPage.resetPasswordFormOnRequestButton().click();
+    }
     if (this.page.url() === profilePage.profilePageUrl()) {
       if (input !== 'country') {
         await profilePage.selectCountry();
@@ -112,6 +117,7 @@ class Validation {
     const loginPage = new LoginPage(this.page);
     const contactPage = new ContactPage(this.page);
     const signUpPage = new SignUpPage(this.page);
+    const resetPasswordPage = new ResetPasswordPage(this.page);
     if (page === quizIslamqaUrl) {
       await signUpPage.formEmailInputLoginPage().type(signUpPage.invalidEmail());
     }
@@ -134,6 +140,10 @@ class Validation {
         await contactPage.formMessageSubjectInput.type(contactPage.formFillMessageSubject());
         await contactPage.formMessageInput.type(contactPage.formFillMessage());
         await signUpPage.formSubmitButton.click();
+      }
+      if (this.page.url() === resetPasswordPage.resetPasswordPageUrl()) {
+        await resetPasswordPage.formEmailInput().type(signUpPage.invalidEmail());
+        await resetPasswordPage.resetPasswordFormOnRequestButton().click();
       }
     }
   }
@@ -210,6 +220,7 @@ class Validation {
     const signUpPage = new SignUpPage(this.page);
     const contactPage = new ContactPage(this.page);
     const profilePage = new ProfilePage(this.page);
+    const resetPasswordPage = new ResetPasswordPage(this.page);
     if (page === quizIslamqaUrl) {
       await expect(signUpPage.formInputError('')).toBeVisible();
       expect(
@@ -252,6 +263,14 @@ class Validation {
           ),
         ).not.toEqual(-1);
       }
+      if (this.page.url() === resetPasswordPage.resetPasswordPageUrl()) {
+        await expect(resetPasswordPage.formInputError('required')).toBeVisible();
+        expect(
+          dataText.ar.resetPassword.requiredErrorMessage.indexOf(
+            await resetPasswordPage.formInputError('required').textContent(),
+          ),
+        ).not.toEqual(-1);
+      }
     }
     if (page === quizIslamqaUrlBubble) {
       if (this.page.url() === loginPage.loginPageUrl()) {
@@ -287,13 +306,47 @@ class Validation {
           ),
         ).not.toEqual(-1);
       }
+      if (this.page.url() === resetPasswordPage.resetPasswordPageUrl()) {
+        await expect(signUpPage.formInputError('required')).toBeVisible();
+        expect(
+          dataText.ar.resetPassword.requiredErrorMessage.indexOf(
+            await signUpPage.formInputError('required').textContent(),
+          ),
+        ).not.toEqual(-1);
+      }
     }
   }
   async showInvalidEmailMessage() {
     const loginPage = new LoginPage(this.page);
     const signUpPage = new SignUpPage(this.page);
     const contactPage = new ContactPage(this.page);
-    if (page === quizIslamqaUrl || page === quizIslamqaUrlBubble) {
+    const resetPasswordPage = new ResetPasswordPage(this.page);
+    if (page === quizIslamqaUrlBubble) {
+      if (this.page.url() === resetPasswordPage.resetPasswordPageUrl()) {
+        await expect(
+          signUpPage
+            .formInputError('email')
+            .filter({ hasText: dataText.ar.resetPassword.invalidEmailErrorMessage[1] }),
+        ).toBeVisible();
+        expect(
+          dataText.ar.resetPassword.invalidEmailErrorMessage.indexOf(
+            await signUpPage
+              .formInputError('email')
+              .filter({ hasText: dataText.ar.resetPassword.invalidEmailErrorMessage[1] })
+              .textContent(),
+          ),
+        ).not.toEqual(-1);
+      }
+    }
+    if (this.page.url() === loginPage.loginPageUrl()) {
+      await expect(signUpPage.formInputErrorLoginPage('email')).toBeVisible();
+      expect(
+        dataText.ar.loginPage.emailInputInvalidEmailErrorMessage.indexOf(
+          await signUpPage.formInputErrorLoginPage('email').textContent(),
+        ),
+      ).not.toEqual(-1);
+    }
+    if (this.page.url() === signUpPage.signUpPageUrl()) {
       await expect(signUpPage.formInputError('email')).toBeVisible();
       expect(
         dataText.ar.signUpPage.emailInputInvalidEmailErrorMessage.indexOf(
@@ -301,31 +354,22 @@ class Validation {
         ),
       ).not.toEqual(-1);
     }
-    if (page === quizIslamqaUrlOS) {
-      if (this.page.url() === loginPage.loginPageUrl()) {
-        await expect(signUpPage.formInputErrorLoginPage('email')).toBeVisible();
-        expect(
-          dataText.ar.loginPage.emailInputInvalidEmailErrorMessage.indexOf(
-            await signUpPage.formInputErrorLoginPage('email').textContent(),
-          ),
-        ).not.toEqual(-1);
-      }
-      if (this.page.url() === signUpPage.signUpPageUrl()) {
-        await expect(signUpPage.formInputError('email')).toBeVisible();
-        expect(
-          dataText.ar.signUpPage.emailInputInvalidEmailErrorMessage.indexOf(
-            await signUpPage.formInputError('email').textContent(),
-          ),
-        ).not.toEqual(-1);
-      }
-      if (this.page.url() === contactPage.contactPageUrl()) {
-        await expect(contactPage.formInputError).toBeVisible();
-        expect(
-          dataText.ar.contact.invalidEmailErrorMessage.indexOf(
-            await signUpPage.formInputError('email').textContent(),
-          ),
-        ).not.toEqual(-1);
-      }
+    if (this.page.url() === contactPage.contactPageUrl()) {
+      await expect(contactPage.formInputError).toBeVisible();
+      expect(
+        dataText.ar.contact.invalidEmailErrorMessage.indexOf(
+          await signUpPage.formInputError('email').textContent(),
+        ),
+      ).not.toEqual(-1);
+    }
+
+    if (this.page.url() === resetPasswordPage.resetPasswordPageUrl()) {
+      await expect(resetPasswordPage.formInputError('email')).toBeVisible();
+      expect(
+        dataText.ar.resetPassword.invalidEmailErrorMessage.indexOf(
+          await resetPasswordPage.formInputError('email').textContent(),
+        ),
+      ).not.toEqual(-1);
     }
   }
   async showUsedEmailMessage() {

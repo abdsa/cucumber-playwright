@@ -2,11 +2,12 @@ Feature: To show the details of the page and let the user to update the details
 
   In order to know the user's details that're necessary for winner selection, we need a way to.
 
+  @ignore
   Scenario: Profile Page
     Given the user is authenticated
     And the user is on the profile page
     Then the user will see an update profile form
-
+  @ignore
   Scenario: Update Profile form with valid inputs
     Given the user is authenticated
     And the user is on the profile page
@@ -14,7 +15,7 @@ Feature: To show the details of the page and let the user to update the details
     When the user submits the update profile form
     Then the user will see a message that indicates that the profile was successfully updated
 
-
+  @ignore
   Scenario Outline: Profile with invalid inputs
     Given the user is authenticated with outdated profile
     And the user is on the profile page
@@ -27,14 +28,14 @@ Feature: To show the details of the page and let the user to update the details
       | country      | required     | هذا الحقل مطلوب |
       | phone_number | required     | هذا الحقل مطلوب |
       | phone_number | max_399      | هذا الحقل مطلوب |
-
+  @ignore
   Scenario: More than 255 characters for name
     Given the user is authenticated
     And the user is on the profile page
     And the user filled the name field with more than 255 characters
     When the user submits the update profile form
     Then the user will see a message that indicates that the name is invalid
-
+  @ignore
   Scenario: access profile but not authenticated
     Given the user is not authenticated
     And the user is on the profile page

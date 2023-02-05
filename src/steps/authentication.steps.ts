@@ -119,6 +119,7 @@ Then(
       await validation.showRequiredMessage();
     }
     if (validityRule === 'email') {
+      console.log("I am in authentication steps")
       await validation.showInvalidEmailMessage();
     }
     if (validityRule === 'minLength_8') {
@@ -238,7 +239,7 @@ Then('the user will see a button that logouts the user', async function (this: I
 
 Given('the user is on the reset password page', async function (this: ICustomWorld) {
   const resetPasswordPage = new ResetPasswordPage(this.page);
-  resetPasswordPage.goto();
+  await resetPasswordPage.goto();
 });
 
 // Given('the user is on the home page', () => {
