@@ -7,7 +7,7 @@ import { expect } from '@playwright/test';
 
 Given('the user is on the home page', async function (this: ICustomWorld) {
   const homePage = new HomePage(this.page);
-  homePage.goto();
+  await homePage.goto();
 });
 Then('the user will see the welcome section', async function (this: ICustomWorld) {
   const homePage = new HomePage(this.page);

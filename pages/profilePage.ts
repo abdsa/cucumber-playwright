@@ -35,7 +35,20 @@ class ProfilePage {
     }
   }
 
-  formNameInput() {
+  formNameInput(): HTMLInputElement {
+    if (page === quizIslamqaUrl) {
+      return document.querySelector("[name='name']");
+    }
+
+    if (page === quizIslamqaUrlOS) {
+      return document.querySelector('#Input_NameVar');
+    }
+
+    if (page === quizIslamqaUrlBubble) {
+      return document.querySelector("[placeholder='الاسم الثلاثي']");
+    }
+  }
+  formNameInputLocator() {
     if (page === quizIslamqaUrl) {
       return this.page.locator("[name='name']");
     }
@@ -49,7 +62,35 @@ class ProfilePage {
     }
   }
 
-  phoneNumberInput() {
+  formNameInputSelector() {
+    if (page === quizIslamqaUrl) {
+      return "[name='name']";
+    }
+
+    if (page === quizIslamqaUrlOS) {
+      return '#Input_NameVar';
+    }
+
+    if (page === quizIslamqaUrlBubble) {
+      return "[placeholder='الاسم الثلاثي']";
+    }
+  }
+
+  phoneNumberInput(): HTMLInputElement {
+    if (page === quizIslamqaUrl) {
+      return document.querySelector("[name='tel']");
+    }
+
+    if (page === quizIslamqaUrlOS) {
+      return document.querySelector('#Input_PhoneVar');
+    }
+
+    if (page === quizIslamqaUrlBubble) {
+      return document.querySelector("[placeholder='رقم هاتفك الشخصي']");
+    }
+  }
+
+  phoneNumberInputLocator() {
     if (page === quizIslamqaUrl) {
       return this.page.locator("[name='tel']");
     }
@@ -179,15 +220,15 @@ class ProfilePage {
       this.selectCountry();
     }
     if (input === 'name') {
-      this.phoneNumberInput().type(this.formFillPhoneNumber());
+      this.phoneNumberInputLocator().type(this.formFillPhoneNumber());
     }
 
     if (input === 'country') {
-      this.formNameInput().type(this.formFillName());
-      this.phoneNumberInput().type(this.formFillPhoneNumber());
+      this.formNameInputLocator().type(this.formFillName());
+      this.phoneNumberInputLocator().type(this.formFillPhoneNumber());
     }
     if (input === 'phone_number') {
-      this.formNameInput().type(this.formFillName());
+      this.formNameInputLocator().type(this.formFillName());
     }
     this.profileFormUpdate().click();
   }

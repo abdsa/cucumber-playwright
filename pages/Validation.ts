@@ -33,15 +33,15 @@ class Validation {
         await profilePage.selectCountry();
       }
       if (input === 'name') {
-        await profilePage.phoneNumberInput().type(profilePage.formFillPhoneNumber());
+        await profilePage.phoneNumberInputLocator().type(profilePage.formFillPhoneNumber());
       }
 
       if (input === 'country') {
-        await profilePage.formNameInput().type(profilePage.formFillName());
-        await profilePage.phoneNumberInput().type(profilePage.formFillPhoneNumber());
+        await profilePage.formNameInputLocator().type(profilePage.formFillName());
+        await profilePage.phoneNumberInputLocator().type(profilePage.formFillPhoneNumber());
       }
       if (input === 'phone_number') {
-        await profilePage.formNameInput().type(profilePage.formFillName());
+        await profilePage.formNameInputLocator().type(profilePage.formFillName());
       }
       await signUpPage.formSubmitButton.click();
     }
@@ -169,14 +169,14 @@ class Validation {
     const profilePage = new ProfilePage(this.page);
     if (page === quizIslamqaUrl) {
       await profilePage
-        .phoneNumberInput()
+        .phoneNumberInputLocator()
         .type(dataText.ar.profile.profileFormPhoneNumberInputMax310);
     }
     if (page === quizIslamqaUrlOS || page === quizIslamqaUrlBubble) {
-      await profilePage.formNameInput().type(profilePage.formFillName());
+      await profilePage.formNameInputLocator().type(profilePage.formFillName());
       await profilePage.selectCountry();
       await profilePage
-        .phoneNumberInput()
+        .phoneNumberInputLocator()
         .type(dataText.ar.profile.profileFormPhoneNumberInputMax310);
       await profilePage.profileFormUpdate().click();
     }

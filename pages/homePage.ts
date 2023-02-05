@@ -55,7 +55,19 @@ class HomePage {
     }
     return '';
   }
-
+  startCompetitionButton() {
+    if (page === quizIslamqaUrl) {
+      return this.page.locator("[data-sut-quiz-home-btn='true']");
+    }
+    if (page === quizIslamqaUrlOS) {
+      return this.page.locator('.register-btn');
+    }
+    if (page === quizIslamqaUrlBubble) {
+      return this.page.locator(
+        '[style="z-index: 4; align-self: center; min-width: 350px; max-width: 350px; order: 2; min-height: 80px; max-height: 80px; height: 80px; flex-grow: 1; width: 350px; margin: 0px; justify-content: space-around; overflow: visible; border-radius: 5px;"] > .bubble-element',
+      );
+    }
+  }
   descriptionSectionSelector() {
     if (page === quizIslamqaUrl) {
       return "[data-sut-description-section='true']";
@@ -102,6 +114,52 @@ class HomePage {
       return '[style="z-index: 2; align-self: center; min-width: 0px; max-width: 960px; order: 1; min-height: 280px; height: max-content; flex-grow: 0; flex-shrink: 0; width: calc(100% - 0px); margin: 0px; justify-content: flex-start; overflow: visible; border-radius: 5px; padding: 24px;"]';
     }
     return '';
+  }
+  quizWinsNumber() {
+    if (page === quizIslamqaUrl) {
+      return this.page.locator("[data-number-wins-quiz='true']");
+    }
+    if (page === quizIslamqaUrlOS) {
+      return this.page.locator(
+        "[style='gap: 6rem; margin-bottom: 0px; padding: 0px 0px 40px;'] > :nth-child(1)",
+      );
+    }
+    if (page === quizIslamqaUrlBubble) {
+      return this.page.locator(
+        '[style="z-index: 2; align-self: flex-start; min-width: 150px; max-width: 150px; order: 1; min-height: 150px; width: 150px; flex-grow: 1; height: max-content; margin: 0px; justify-content: center; overflow: visible; border-style: solid; border-width: 1px; border-color: rgb(229, 231, 235); border-radius: 9999px;"]',
+      );
+    }
+  }
+  quizLastResult() {
+    if (page === quizIslamqaUrl) {
+      return this.page.locator("[data-last-result-quiz='true']");
+    }
+    if (page === quizIslamqaUrlOS) {
+      return this.page.locator(
+        "[style='gap: 6rem; margin-bottom: 0px; padding: 0px 0px 40px;'] > :nth-child(2)",
+      );
+    }
+    if (page === quizIslamqaUrlBubble) {
+      return this.page.locator(
+        '[style="z-index: 3; align-self: flex-start; min-width: 150px; max-width: 150px; order: 2; min-height: 150px; width: 150px; flex-grow: 1; height: max-content; margin: 0px; justify-content: center; overflow: visible; border-style: solid; border-width: 1px; border-color: rgb(229, 231, 235); border-radius: 9999px;"]',
+      );
+    }
+  }
+
+  joinsNumber() {
+    if (page === quizIslamqaUrl) {
+      return this.page.locator("[data-joins-number-quiz='true']");
+    }
+    if (page === quizIslamqaUrlOS) {
+      return this.page.locator(
+        "[style='gap: 6rem; margin-bottom: 0px; padding: 0px 0px 40px;'] > :nth-child(3)",
+      );
+    }
+    if (page === quizIslamqaUrlBubble) {
+      return this.page.locator(
+        '[style="z-index: 3; align-self: flex-start; min-width: 150px; max-width: 150px; order: 3; min-height: 150px; width: 150px; flex-grow: 1; height: max-content; margin: 0px; justify-content: center; overflow: visible; border-style: solid; border-width: 1px; border-color: rgb(229, 231, 235); border-radius: 9999px;"]',
+      );
+    }
   }
   readonly page: Page | undefined;
   readonly welcomeSection!: Locator;

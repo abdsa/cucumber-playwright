@@ -27,10 +27,10 @@ Given(
   'the user filled the update profile form with valid values',
   async function (this: ICustomWorld) {
     const profilePage = new ProfilePage(this.page);
-    await profilePage.formNameInput().clear();
-    await profilePage.formNameInput().type(profilePage.formFillNameUpdatedUser());
-    await profilePage.phoneNumberInput().clear();
-    await profilePage.phoneNumberInput().type(profilePage.formFillPhoneNumberUpdatedUser());
+    await profilePage.formNameInputLocator().clear();
+    await profilePage.formNameInputLocator().type(profilePage.formFillNameUpdatedUser());
+    await profilePage.phoneNumberInputLocator().clear();
+    await profilePage.phoneNumberInputLocator().type(profilePage.formFillPhoneNumberUpdatedUser());
     await profilePage.selectCountry();
   },
 );
@@ -61,8 +61,8 @@ Given(
   'the user filled the name field with more than 255 characters',
   async function (this: ICustomWorld) {
     const profilePage = new ProfilePage(this.page);
-    await profilePage.formNameInput().clear();
-    await profilePage.formNameInput().type(profilePage.form255Char());
+    await profilePage.formNameInputLocator().clear();
+    await profilePage.formNameInputLocator().type(profilePage.form255Char());
   },
 );
 
