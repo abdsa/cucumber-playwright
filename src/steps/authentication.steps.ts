@@ -119,7 +119,6 @@ Then(
       await validation.showRequiredMessage();
     }
     if (validityRule === 'email') {
-      console.log("I am in authentication steps")
       await validation.showInvalidEmailMessage();
     }
     if (validityRule === 'minLength_8') {

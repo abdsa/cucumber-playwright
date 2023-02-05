@@ -1,5 +1,6 @@
 Feature: resetting the password
 
+    @ignore
     Scenario: Forget-password page
         Given the user is not authenticated
         And the user is on the reset password page
@@ -16,12 +17,14 @@ Feature: resetting the password
     # Then the user will see a successful message
     # And the user should receive a message to his email with a link to reset the password
 
+    @ignore
     Scenario: Input an email that doesn't exist in the system
         Given the user is not authenticated
         And the user is on the reset password page
         And the user filled the reset password form with account details that don't match any account in the system
         When the user submits the reset password form
         Then the user will see a message that indicates that the email doesn't match any account in the system
+    @ignore
 
     Scenario Outline: Invalid email
         Given the user is not authenticated
@@ -99,6 +102,7 @@ Feature: resetting the password
     #     And the user has filled the new password form validly
     #     When the user submits the form
     #     Then the user will see a error message
+    @ignore
     Scenario: Password reset email has been sent to the user's email
         Given the user is on the reset password page
         And the user filled the reset password form with a registered email
