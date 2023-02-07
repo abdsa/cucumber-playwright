@@ -1,10 +1,3 @@
-// Given('the user is on the {string} page', async function (this: ICustomWorld, page: string) {
-//   if (page === 'terms and conditions' || page === 'faq') {
-//     const staticPages = new StaticPages(this.page);
-//     staticPages.goto(page);
-//   }
-// });
-
 /* There are failing tests for these reasons in the OS system:
 
 1- A page is not available yet.
@@ -19,33 +12,33 @@ import { ICustomWorld } from '../support/custom-world';
 import HomePage from '../../pages/homePage';
 import { Given, When, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
-
 const navigation = new Navigation(undefined);
-
-Given('the user is "not authenticated"', () => {
-  navigation.checkUnauthenticated();
+Given('the user is "not authenticated"', async function (this: ICustomWorld) {
+  const navigation = new Navigation(this.page);
+  await navigation.checkUnauthenticated();
 });
 
 Given('the user is "authenticated"', async function (this: ICustomWorld) {
   const loginPage = new LoginPage(this.page);
+  const homePage = new HomePage(this.page);
   await loginPage.goto();
   await loginPage.formEmailInput.type(loginPage.registeredEmail());
   await loginPage.formPasswordInput.type(loginPage.registeredEmailPassword());
   await loginPage.formSubmitButton.click();
-  this.page.waitForTimeout(3000);
+  await this.page.waitForURL(homePage.homePageFullUrlWithHome(), { waitUntil: 'networkidle' });
 });
 
 Given(
   'the user is on the {string} page',
   async function (this: ICustomWorld, page: keyof typeof navigation.pagesObject) {
-    // const logoutPage = new LogOutPage(page);
-    await this.page.goto(navigation.pagesObject()[page]);
+    const navigation = new Navigation(this.page);
+    const logoutPage = new LogOutPage(this.page);
 
-    // if (page === 'logout') {
-    //   logoutPage.logout();
-    // } else {
-    //   cy.visit(navigation.pagesObject()[page]);
-    // }
+    if (page === 'logout') {
+      await logoutPage.logout();
+    } else {
+      await this.page.goto(navigation.pagesObject()[page]);
+    }
   },
 );
 
@@ -58,13 +51,10 @@ Then(
     } else {
       const navigation = new Navigation(this.page);
       await navigation.menuButtonSelector().click();
-      await navigation.menuList
-        .getByText(dataText.ar.navigation[pageNav])
-        .click()
-        .then(() => {
-          expect(this.page?.url()).toEqual(navigation.pagesObject()[pageNav]);
-          // .should('include', navigation.pagesObject()[pageNav]);
-        });
+      await navigation.menuList.getByText(dataText.ar.navigation[pageNav]).click();
+      await this.page.waitForURL(navigation.pagesObject()[pageNav], { waitUntil: 'networkidle' });
+      expect(this.page?.url()).toEqual(navigation.pagesObject()[pageNav]);
+      // .should('include', navigation.pagesObject()[pageNav]);
     }
   },
 );
@@ -97,14 +87,15 @@ Then('the user will navigate to the home page', async function (this: ICustomWor
 Then(
   'the user will be able to navigate to the social media accounts of islamqa',
   async function (this: ICustomWorld) {
+    const navigation = new Navigation(this.page);
     // navigation.footer().scrollIntoView();
-    expect(navigation.footerInstagramIcon).toBeVisible();
+    await expect(navigation.footerInstagramIcon).toBeVisible();
     await navigation.footerInstagramIcon.click();
-    expect(navigation.footerYoutubeIcon).toBeVisible();
+    await expect(navigation.footerYoutubeIcon).toBeVisible();
     await navigation.footerYoutubeIcon.click();
-    expect(navigation.footerFacebookIcon).toBeVisible();
+    await expect(navigation.footerFacebookIcon).toBeVisible();
     await navigation.footerFacebookIcon.click();
-    expect(navigation.footerSoundCloudIcon).toBeVisible();
+    await expect(navigation.footerSoundCloudIcon).toBeVisible();
     await navigation.footerSoundCloudIcon.click();
   },
 );

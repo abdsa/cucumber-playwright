@@ -1,5 +1,6 @@
 // import dataText from "../../dataText";
 
+import dataText from '../dataText';
 import { config } from '../src/support/config';
 import { Locator, Page } from '@playwright/test';
 const page = config.BASE_URL;
@@ -55,11 +56,11 @@ class SignUpPage {
       return this.page.locator("[data-signup-page-message='true']");
     }
     if (page === quizIslamqaUrlOS) {
-      return this.page.locator('.display-flex > span');
+      return this.page.getByText(dataText.ar.signUpPage.onAuthenticatedMessage);
     }
     if (page === quizIslamqaUrlBubble) {
       return this.page.locator(
-        '[style="z-index: 6; align-self: center; min-width: 200px; max-width: 200px; order: 2; min-height: 45px; height: max-content; flex-grow: 0; flex-shrink: 0; width: 200px; margin: 0px; white-space: pre-wrap; overflow: visible; word-break: break-word; font-family: var(--font_default); font-size: 18px; font-weight: 500; color: rgb(0, 0, 0); text-align: center; line-height: 1.4; border-radius: 0px;"]',
+        '[style="z-index: 6; align-self: center; min-width: 200px; max-width: 200px; order: 2; min-height: 45px; height: max-content; flex-grow: 0; flex-shrink: 0; width: 200px; margin: 0px; white-space: pre-wrap; overflow: visible; word-break: break-word; font-family: var(--font_default); font-size: 18px; font-weight: 500; color: rgb(0, 0, 0); text-align: center; line-height: 1.4; border-radius: 0px;"]:visible',
       );
     }
   }

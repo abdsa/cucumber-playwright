@@ -1,8 +1,5 @@
-// Social media icons don't open a new tab in Bubble
-// Can't type the 399 character in phone filed in profile form
-// In the Outsystems version, the 255 error message for email field is not showing, instead the "invalid email error message" is showing
-// There is no login success message in the bubble and the Outsystems version
-// Cannot know if I am not authenticated
+// In the Outsystems version, the app redirects the user to the "/InvalidPermissions" page when the user tries
+// to navigate to the "/terms" page
 
 import ContactPage from './contactPage';
 // import HomePage from './homePage';
@@ -23,7 +20,6 @@ const page = config.BASE_URL;
 const quizIslamqaUrl = 'https://quiz.islamqa.info/';
 const quizIslamqaUrlOS = 'https://atq.outsystemscloud.com/IslamQA_Quiz/';
 const quizIslamqaUrlBubble = 'https://islamqa-quiz.bubbleapps.io/version-test/';
-// const homePage = new HomePage(undefined);
 const faqPage = new FaqPage();
 const competitionPage = new CompetitionPage(undefined);
 const contactPage = new ContactPage(undefined);
@@ -52,6 +48,7 @@ class Navigation {
     if (page) {
       this.menuButtonMain = page.getByRole('button', { name: 'menu-svg' });
       this.menuButtonBubble = page.locator('div:nth-child(2) > .bubble-element').first();
+      this.menuButtonOS = page.getByRole('button', { name: 'Toggle the Menu' });
       this.menuList = page.locator(this.menuListSelector());
       this.menuListItem = page.locator(this.menuListItemSelector());
       this.menuListItemStartCompetition = page.locator(this.menuListItemStartCompetitionSelector());
@@ -64,7 +61,7 @@ class Navigation {
   }
   pagesObject() {
     return {
-      home: page,
+      home: this.homePage(),
       about: faqPage.faqPageUrl(),
       'start competition': competitionPage.competitionPageUrl(),
       'terms and conditions': termsPage.termsPageUrl(),
@@ -77,7 +74,17 @@ class Navigation {
       'sign up': signUpPage.signUpPageUrl(),
     };
   }
-
+  homePage() {
+    if (page === quizIslamqaUrl) {
+      return page;
+    }
+    if (page === quizIslamqaUrlOS) {
+      return `${page}home`;
+    }
+    if (page === quizIslamqaUrlBubble) {
+      return page;
+    }
+  }
   Logo() {
     if (page === quizIslamqaUrl) {
       return 'a.cursor-pointer > img';
@@ -204,18 +211,18 @@ class Navigation {
 
   async checkUnauthenticated() {
     if (page === quizIslamqaUrl) {
-      await this.page?.goto(`${page}quiz`);
-      await this.page.waitForTimeout(2000);
+      await this.page?.goto(`${page}quiz`, { waitUntil: 'networkidle' });
+      // await this.page.waitForTimeout(2000);
       expect(this.page?.url()).toEqual(`${page}login`);
     }
 
     if (page === quizIslamqaUrlBubble) {
-      await this.page?.goto(`${page}competition`);
+      await this.page?.goto(`${page}competition`, { waitUntil: 'networkidle' });
       expect(this.page?.url()).toEqual(`${page}login`);
     }
     if (page === quizIslamqaUrlOS) {
-      await this.page?.goto(`${page}competition`);
-      await this.page.waitForTimeout(2000);
+      await this.page?.goto(`${page}competition`, { waitUntil: 'networkidle' });
+      // await this.page?.waitForTimeout(2000);
       // await this.page.waitForNavigation();
       expect(this.page?.url()).toEqual(`${page}Login`);
     }

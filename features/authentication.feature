@@ -30,9 +30,9 @@ Feature: Authentication features of the system
 
   # I changed this step because of the country select. I could not reset the value of the
   # country select
-
-
   @ignore
+
+
   Scenario Outline: sign up with invalid inputs
     Given the user is not authenticated
     And the user is on the sign up page
@@ -49,7 +49,6 @@ Feature: Authentication features of the system
       | password         | upper-lower-number | يجب ان تحوي أحرف إنكليزية صغيرة وكبيرة وأرقام |
       | confirm_password | match password     | يجب أن تكون كلمة السر مطابقة                  |
 
-
   @ignore
   Scenario: sign up with used email
     Given the user is not authenticated
@@ -57,7 +56,7 @@ Feature: Authentication features of the system
     When the user tries to create an account with an email used before
     Then the user will see a feedback message telling that the email is used
 
-  @ignore
+  
   Scenario: Users can see feedback when trying to create an account with 255 length email
     Given the user is not authenticated
     And the user is on the sign up page
@@ -68,6 +67,7 @@ Feature: Authentication features of the system
   #   Given the user is not authenticated
   #   And the user is on the home page
   #   Then the user will be able to see the registration form inside the home page
+
   @ignore
   Scenario: Register-succeeded page
     Given the user is on the register-succeeded page
@@ -81,7 +81,6 @@ Feature: Authentication features of the system
   # #     And the user will be redirected to the activated page
   # #     And the user will see a successful message of account activation
   # #     And the user will be able to navigate to sign in page
-
   @ignore
   Scenario: Authenticated user visits the sign up page
     Given the user is authenticated
@@ -103,8 +102,9 @@ Feature: Authentication features of the system
     And the user is on the login page
     And the user filled the login form with valid values
     When the user submits the login form
-    Then the user will be redirected to the home page
-    And the user will see a login success message
+    Then the user will see a login success message
+    And the user will be redirected to the home page
+
   @ignore
 
   Scenario: sign in with invalid inputs
@@ -118,7 +118,6 @@ Feature: Authentication features of the system
       | email       | required      | هذا الحقل مطلوب            |
       | email       | email         | البريد الألكتروني غير صحيح |
       | password    | required      | هذا الحقل مطلوب            |
-  # @focus
 
 
   @ignore
@@ -139,8 +138,8 @@ Feature: Authentication features of the system
   Scenario: Login inside the home page
     Given the user is on the home page
     Then the user will be able to see the login form inside the home page
-  @ignore
 
+  @ignore
   Scenario: Logout page
     Given the user is authenticated
     And the user navigated to the logout page
@@ -151,8 +150,8 @@ Feature: Authentication features of the system
     Given the user is authenticated
     And the user is on the login page
     Then the user will see a button that logouts the user
-  @ignore
 
+  @ignore
   Scenario: Logout in forgot-password page
     Given the user is authenticated
     And the user is on the reset password page

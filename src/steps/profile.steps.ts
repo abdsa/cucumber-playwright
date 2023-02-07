@@ -2,16 +2,18 @@ import ProfilePage from '../../pages/profilePage';
 import LoginPage from '../../pages/loginPage';
 import dataText from '../../dataText';
 import { ICustomWorld } from '../support/custom-world';
+import HomePage from '../../pages/homePage';
 import { Given, When, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 Given('the user is authenticated with outdated profile', async function (this: ICustomWorld) {
   const loginPage = new LoginPage(this.page);
   const profilePage = new ProfilePage(this.page);
+  const homePage = new HomePage(this.page);
   await loginPage.goto();
   await loginPage.formEmailInput.type(profilePage.usedEmailWithOutdatedProfile());
   await loginPage.formPasswordInput.type(loginPage.registeredEmailPassword());
   await loginPage.formSubmitButton.click();
-  await this.page.waitForTimeout(2000);
+  await this.page.waitForURL(homePage.homePageFullUrlWithHome(), { waitUntil: 'networkidle' });
 });
 
 Given('the user is on the profile page', async function (this: ICustomWorld) {
@@ -91,6 +93,5 @@ Then(
 );
 Then('the user will be redirected to the login page', async function (this: ICustomWorld) {
   const loginPage = new LoginPage(this.page);
-  await this.page.waitForTimeout(5000);
   expect(this.page.url()).toEqual(loginPage.loginPageUrl());
 });

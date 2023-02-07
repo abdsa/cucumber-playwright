@@ -57,7 +57,7 @@ class LoginPage {
     return "input[placeholder='البريد الإلكتروني']";
   }
 
-  loginSuccessMessage() {
+  loginSuccessMessageLocator() {
     if (page === quizIslamqaUrl) {
       return this.page.locator('.go3958317564');
     }
@@ -65,7 +65,19 @@ class LoginPage {
       return this.page.locator('.feedback-message-text');
     }
     if (page === quizIslamqaUrlBubble) {
-      return this.page.locator('.Popup');
+      return this.page.locator('.Popup:visible');
+    }
+  }
+
+  loginSuccessMessageSelector() {
+    if (page === quizIslamqaUrl) {
+      return '.go3958317564';
+    }
+    if (page === quizIslamqaUrlOS) {
+      return '.feedback-message-text';
+    }
+    if (page === quizIslamqaUrlBubble) {
+      return '.Popup:visible';
     }
   }
 

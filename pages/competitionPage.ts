@@ -23,8 +23,9 @@ class CompetitionPage {
     if (page === quizIslamqaUrlOS) {
       await this.page.goto(
         'https://atq.outsystemscloud.com/IslamQA_Quiz/competition?Competition=43',
+        { waitUntil: 'networkidle' },
       );
-      await this.page.waitForTimeout(500);
+      // await this.page.waitForTimeout(500);
     }
   }
 
@@ -33,7 +34,7 @@ class CompetitionPage {
       return `${page}quiz`;
     }
     if (page === quizIslamqaUrlOS) {
-      return `${page}Start`;
+      return `${page}competition`;
     }
     if (page === quizIslamqaUrlBubble) {
       return `${page}competition`;

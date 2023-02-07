@@ -3,21 +3,6 @@ import { StaticPages } from '../../pages/static-pages';
 import { Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 
-// Given(
-//   /^the user is on the (.*) page$/,
-//   async function (this: ICustomWorld, staticPage: 'terms and conditions' | 'faq') {
-//     const staticPages = new StaticPages(this.page);
-//     staticPages.goto(staticPage);
-//   },
-// );
-
-// Given('the user is on the {string} page', async function (this: ICustomWorld, page: string) {
-//   if (page === 'terms and conditions' || page === 'faq') {
-//     const staticPages = new StaticPages(this.page);
-//     staticPages.goto(page);
-//   }
-// });
-
 Then(
   'the user will see the content of the {string} page',
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

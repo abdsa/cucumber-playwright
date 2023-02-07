@@ -1,4 +1,5 @@
 import Navigation from './navigation';
+import HomePage from './homePage';
 import { config } from '../src/support/config';
 import { Locator, Page } from '@playwright/test';
 
@@ -76,10 +77,14 @@ class LogOutPage {
     }
     if (page === quizIslamqaUrlBubble) {
       const navigation = new Navigation(this.page);
+      const homePage = new HomePage(this.page);
       await this.menuButtonBubble.click();
       await this.logoutMenuItemBubble.click();
       // await this.appMenuOverlayBubble.click();
-      await this.page.waitForTimeout(2000);
+      // await this.page.waitForTimeout(2000);
+      await this.page.waitForURL(homePage.homePageFullUrlWithHome(), {
+        waitUntil: 'networkidle',
+      });
       await navigation.checkUnauthenticated();
     }
   }

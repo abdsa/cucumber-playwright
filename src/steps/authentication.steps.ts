@@ -35,7 +35,7 @@ Given('the user is not authenticated', async function (this: ICustomWorld) {
 Then('the user will see a sign up form', async function (this: ICustomWorld) {
   const signUpPage = new SignUpPage(this.page);
   await this.page.waitForSelector(signUpPage.signUpFormSelector());
-  expect(signUpPage.signUpForm).toBeVisible();
+  await expect(signUpPage.signUpForm).toBeVisible();
 });
 
 // successful sign up
@@ -80,7 +80,9 @@ Given('the user filled the login form with valid values', async function (this: 
 
 Then('the user will be redirected to the home page', async function (this: ICustomWorld) {
   const homePage = new HomePage(this.page);
-  await this.page.waitForTimeout(5000);
+  const loginPage = new LoginPage(this.page);
+  await this.page.waitForSelector(loginPage.loginSuccessMessageSelector(), { state: 'detached' });
+  // We are adding this wait for expect below. Expects doesn't wait.
   expect(this.page.url()).toEqual(homePage.homePageFullUrlWithHome());
 });
 
@@ -168,25 +170,28 @@ Then(
   async function (this: ICustomWorld) {
     const registerSucceededPage = new RegisterSucceededPage(this.page);
     const loginPage = new LoginPage(this.page);
-    //  This wait is for Outsystems
-    await this.page.waitForTimeout(1000);
     await expect(registerSucceededPage.registerSucceededPageSignInButton()).toBeVisible();
     await registerSucceededPage.registerSucceededPageSignInButton().click();
-    await this.page.waitForTimeout(1000);
+    //  This wait is for Outsystems
+    await this.page.waitForURL(loginPage.loginPageUrl(), {
+      waitUntil: 'networkidle',
+    });
+    // await this.page.waitForTimeout(1000);
     expect(this.page.url()).toEqual(loginPage.loginPageUrl());
   },
 );
 
 Given('the user is authenticated', async function (this: ICustomWorld) {
+  // const homePage = new HomePage(this.page);
   const loginPage = new LoginPage(this.page);
-  loginPage.goto();
+  await loginPage.goto();
   await loginPage.formEmailInput.type(loginPage.registeredEmail());
   await loginPage.formPasswordInput.type(loginPage.registeredEmailPassword());
   await loginPage.formSubmitButton.click();
   // This wait is for slowing down cypress from navigating to the sign up page immediately after the submission of the form
   // After the submission of the form, the user is being redirected to the home page and being authenticated
   // Without waiting, cypress doesn't allow the website to redirect and authenticate.
-  await this.page.waitForTimeout(2000);
+  // await this.page.waitForURL(homePage.homePageFullUrlWithHome(), { waitUntil: 'networkidle' });
 });
 
 Given('the user is on the sign up page', async function (this: ICustomWorld) {
@@ -228,9 +233,13 @@ Then('the user will logout', async function (this: ICustomWorld) {
 Then('the user will see a button that logouts the user', async function (this: ICustomWorld) {
   const loginPageWithResetPasswordPage = new SignInPageWithResetPasswordPage(this.page);
   const navigation = new Navigation(this.page);
+  const loginPage = new LoginPage(this.page);
   await expect(loginPageWithResetPasswordPage.onAuthenticatedLogoutButton()).toBeVisible();
   await loginPageWithResetPasswordPage.onAuthenticatedLogoutButton().click();
-  await this.page.waitForTimeout(2000);
+  await this.page.waitForURL(loginPage.loginPageUrl(), {
+    waitUntil: 'networkidle',
+  });
+  // await this.page.waitForTimeout(2000);
   await navigation.checkUnauthenticated();
 });
 
@@ -287,8 +296,7 @@ Then(
 
 Then('the user will see a login success message', async function (this: ICustomWorld) {
   const loginPage = new LoginPage(this.page);
-  this.page.waitForTimeout(5000);
-  expect(loginPage.loginSuccessMessage()).toBeVisible();
+  await expect(loginPage.loginSuccessMessageLocator()).toBeVisible();
 });
 
 Given(
@@ -306,8 +314,6 @@ Then(
   'the user will see a feedback message telling that the email is used',
   async function (this: ICustomWorld) {
     const validation = new Validation(this.page);
-
-    await this.page.waitForTimeout(2000);
     await validation.showUsedEmailMessage();
   },
 );
@@ -327,7 +333,7 @@ Then(
   'the user shall see a error message of max 255 characters that comes from the system',
   async function (this: ICustomWorld) {
     const validation = new Validation(this.page);
-    await this.page.waitForTimeout(2000);
+    // await this.page.waitForTimeout(2000);
     await validation.show255CharacterMessage();
   },
 );

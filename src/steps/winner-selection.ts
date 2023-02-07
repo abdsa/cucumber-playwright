@@ -3,6 +3,7 @@ import WinnerSelectionPage from '../../pages/winnerSelectionPage';
 import LoginPage from '../../pages/loginPage';
 import dataText from '../../dataText';
 import { ICustomWorld } from '../support/custom-world';
+import HomePage from '../../pages/homePage';
 import { Given, Then } from '@cucumber/cucumber';
 import { expect } from '@playwright/test';
 
@@ -11,11 +12,12 @@ const expiredCompetition = 'Wed 19 Jan 2023';
 Given('the user is authenticated as the admin', async function (this: ICustomWorld) {
   const competition = new Competition(this.page);
   const loginPage = new LoginPage(this.page);
+  const homePage = new HomePage(this.page);
   await loginPage.goto();
   await loginPage.formEmailInput.type(competition.competitionAdminUserEmail());
   await loginPage.formPasswordInput.type(competition.competitionAdminUserPassword());
   await loginPage.formSubmitButton.click();
-  await this.page.waitForTimeout(500);
+  await this.page.waitForURL(homePage.homePageFullUrlWithHome(), { waitUntil: 'networkidle' });
 });
 
 Given('the admin is on the winner selection page', async function (this: ICustomWorld) {

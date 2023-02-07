@@ -12,6 +12,7 @@ Feature: contact
     Then the user will see a feedback message telling that the message was sent successfully
   @ignore
 
+  @ignore
   Scenario Outline: Contact us with invalid inputs
     Given the user is on the contact page
     And the user violated the "<validityRule>" rule for "<inputField>" field
@@ -27,8 +28,8 @@ Feature: contact
 
   # This scenario is implemented differently than what is written here (in the main website: https://quiz.islamqa.info/)
 
-  #
   @ignore
+
   Scenario: send a message with invalid inputs and submit to the system
     Given the user is on the contact page
     And the user has inputted more than 255 characters in the "<input-field>" input field

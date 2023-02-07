@@ -3,7 +3,6 @@ import LoginPage from '../../pages/loginPage';
 import dataText from '../../dataText';
 import WinnerSelectionPage from '../../pages/winnerSelectionPage';
 import HomePage from '../../pages/homePage';
-import Navigation from '../../pages/navigation';
 import ProfilePage from '../../pages/profilePage';
 import { ICustomWorld } from '../support/custom-world';
 import { Given, Then, When } from '@cucumber/cucumber';
@@ -21,19 +20,15 @@ const tomorrowOS = `Thu 19 Jan 2023`;
 // const yesterday = new Date();
 const yesterdayOS = `Tue 17 Jan 2023`;
 const tomorrowCompetitionMessage = 'عذراً، المسابقة لم تبدأ بعد، ستبدأ بتاريخ  19/01/2023';
-Given('the user is not authenticated', async function (this: ICustomWorld) {
-  const navigation = new Navigation(this.page);
-  await navigation.checkUnauthenticated();
-});
-
 Given('the user is authenticated with updated profile', async function (this: ICustomWorld) {
   const competitionPage = new CompetitionPage(this.page);
   const loginPage = new LoginPage(this.page);
+  const homePage = new HomePage(this.page);
   await loginPage.goto();
   await loginPage.formEmailInput.type(competitionPage.competitionAdminUserEmail());
   await loginPage.formPasswordInput.type(competitionPage.competitionAdminUserPassword());
   await loginPage.formSubmitButton.click();
-  await this.page.waitForTimeout(500);
+  await this.page.waitForURL(homePage.homePageFullUrlWithHome(), { waitUntil: 'networkidle' });
 });
 
 Given('the user is on the competition page', async function (this: ICustomWorld) {
@@ -294,11 +289,6 @@ Then("the user will see the user's last result", async function (this: ICustomWo
 Then("the user will see the user's number of attempts", async function (this: ICustomWorld) {
   const homePage = new HomePage(this.page);
   await expect(homePage.joinsNumber()).toBeVisible();
-});
-
-Then('the user will be redirected to the login page', async function (this: ICustomWorld) {
-  const loginPage = new LoginPage(this.page);
-  expect(this.page.url()).toEqual(loginPage.loginPageUrl());
 });
 
 Then('the user will be able submit the answers', async function (this: ICustomWorld) {

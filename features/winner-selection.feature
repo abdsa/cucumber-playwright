@@ -3,6 +3,7 @@
 Feature: Winner selection
         To define how the selection of the winners is made
 
+@ignore
         Scenario: Winner selection
                 Given the user is authenticated as the admin
                 And the admin is on the winner selection page

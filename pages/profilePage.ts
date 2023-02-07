@@ -19,7 +19,7 @@ class ProfilePage {
   //   };
   // }
   async goto() {
-    await this.page.goto(this.profilePageUrl());
+    await this.page.goto(this.profilePageUrl(), { waitUntil: 'networkidle' });
   }
   profilePageUrl() {
     return `${page}profile`;

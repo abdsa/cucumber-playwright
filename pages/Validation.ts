@@ -384,8 +384,8 @@ class Validation {
     const signUpPage = new SignUpPage(this.page);
     if (page === quizIslamqaUrl) {
       // cy.wait(8000)
-      await expect(loginPage.loginSuccessMessage()).toBeVisible();
-      await expect(loginPage.loginSuccessMessage()).toHaveText(
+      await expect(loginPage.loginSuccessMessageLocator()).toBeVisible();
+      await expect(loginPage.loginSuccessMessageLocator()).toHaveText(
         dataText.ar.signUpPage.emailInput255CharacterErrorMessage[0],
       );
     }
